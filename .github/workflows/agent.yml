@@ -26,7 +26,7 @@ jobs:
 
     - name: Run Agent
       env:
-        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         SITE_PROMPT: ${{ github.event.inputs.prompt }}
       run: python agent.py
 

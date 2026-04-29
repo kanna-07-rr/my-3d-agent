@@ -1,35 +1,32 @@
 import os, requests, json
 
-GEMINI_KEY = os.environ["GEMINI_API_KEY"]
+KEY = os.environ["OPENROUTER_API_KEY"]
 PROMPT = os.environ.get("SITE_PROMPT", "Build a 3D rotating cube website")
 
 SYSTEM = """You are a 3D web developer. Output ONLY a single complete
-HTML file. Use Three.js from CDN. The site must be visually
-stunning and interactive. No markdown, no explanation —
-just raw HTML starting with <!DOCTYPE html>."""
-
-url = "https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent"
-
-payload = {
-    "contents": [{"parts": [{"text": f"{SYSTEM}\n\nUSER REQUEST: {PROMPT}"}]}],
-    "generationConfig": {"maxOutputTokens": 8192, "temperature": 0.7}
-}
+HTML file. Use Three.js from CDN. Make it visually stunning.
+No markdown, no explanation — just raw HTML starting with <!DOCTYPE html>."""
 
 res = requests.post(
-    f"{url}?key={GEMINI_KEY}",
-    json=payload,
-    headers={"Content-Type": "application/json"}
+    "https://openrouter.ai/api/v1/chat/completions",
+    headers={
+        "Authorization": f"Bearer {KEY}",
+        "Content-Type": "application/json"
+    },
+    json={
+        "model": "meta-llama/llama-3.3-8b-instruct:free",
+        "messages": [
+            {"role": "system", "content": SYSTEM},
+            {"role": "user", "content": PROMPT}
+        ]
+    }
 )
 
 print("STATUS:", res.status_code)
 response_json = res.json()
 print("RESPONSE:", json.dumps(response_json, indent=2))
 
-if "candidates" not in response_json:
-    print("❌ API ERROR")
-    exit(1)
-
-html = response_json["candidates"][0]["content"]["parts"][0]["text"]
+html = response_json["choices"][0]["message"]["content"]
 
 if html.startswith("```"):
     html = html.split("\n", 1)[1].rsplit("```", 1)[0]
