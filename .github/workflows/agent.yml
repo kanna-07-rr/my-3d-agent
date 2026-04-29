@@ -1,0 +1,39 @@
+name: 3D Site Agent
+
+on:
+  workflow_dispatch:
+    inputs:
+      prompt:
+        description: "Describe the 3D website you want"
+        required: true
+        default: "Build a 3D solar system with glowing planets"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"
+
+    - name: Install requests
+      run: pip install requests
+
+    - name: Run Agent
+      env:
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        SITE_PROMPT: ${{ github.event.inputs.prompt }}
+      run: python agent.py
+
+    - name: Push site to GitHub
+      run: |
+        git config user.name "AgentBot"
+        git config user.email "agent@bot.com"
+        git add index.html
+        git commit -m "🤖 Built: ${{ github.event.inputs.prompt }}"
+        git push
