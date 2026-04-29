@@ -8,7 +8,7 @@ HTML file. Use Three.js from CDN. The site must be visually
 stunning and interactive. No markdown, no explanation —
 just raw HTML starting with <!DOCTYPE html>."""
 
-url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
+url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
 
 payload = {
     "contents": [{"parts": [{"text": f"{SYSTEM}\n\nUSER REQUEST: {PROMPT}"}]}],
