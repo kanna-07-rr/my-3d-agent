@@ -1,18 +1,161 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>3D Portfolio</title>
+    <meta charset="utf-8">
+    <title>3D Glowing Solar System</title>
     <style>
-        body { margin: 0; overflow: hidden; }
-        canvas { display: block; border: 1px solid #000; }
+        body { margin: 0; overflow: hidden; background: #000; }
+        #stats { position: absolute; top: 10px; left: 10px; font-family: monospace; color: #fff; font-size: 12px; z-index: 100; }
     </style>
 </head>
 <body>
-    <canvas id="canvas" width="800" height="600"></canvas>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.150.0/build/three.min.js"></script>
+    <div id="stats">FPS:<span id="fps">0</span></div>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.157.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.157.0/examples/js/shaders/BlurShader.js"></script>
     <script>
-        const renderer = new THREE.WebGLContainer();
-        renderer.render(container, document.getElementById('canvas'), new THREE.Scene());
+        // Scene setup
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(70, window.innerWidth/window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setClearColor(0x000000, 0.9);
+        document.body.appendChild(renderer.domElement);
+        
+        // Controls
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        camera.position.z = 200;
+        
+        // Global parameters
+        const TIME = 0;
+        const STARS_COUNT = 2000;
+        
+        // Add stars
+        const stars = new THREE.Group();
+        const starMaterial = new THREE.MeshPhongMaterial({color: 0xFFFFFF, transparent: true, opacity: 0.3});
+        
+        for(let i = 0; i < STARS_COUNT; i++) {
+            const star = new THREE.Mesh(
+                new THREE.SphereGeometry((Math.random() + 0.1)*0.1, 10, 10),
+                new THREE.MeshPhongMaterial({
+                    color: 0xFFFFFF,
+                    transparent: true,
+                    opacity: 0.2 + Math.random() * 0.5,
+                    depthWrite: false
+                })
+            );
+            star.position.set(Math.random() * 400 - 200, Math.random() * 400 - 200, Math.random() * 300);
+            stars.add(star);
+        }
+        scene.add(stars);
+        
+        // Add Glowing Sun
+        const sun = new THREE.Mesh(
+            new THREE.SphereGeometry(25, 32, 32),
+            new THREE.MeshPhongMaterial({
+                color: 0xffff00,
+                emissive: 0xffff33,
+                emissiveIntensity: 10,
+                specular: 0xffffff,
+                shininess: 100,
+                depthWrite: false
+            })
+        );
+        scene.add(sun);
+        
+        // Add Glowing Planets with trails
+        const planets = [];
+        const planetNames = [
+            {name: 'Mercury', radius: 1.5, distance: 70},
+            {name: 'Venus', radius: 2, distance: 120},
+            {name: 'Earth', radius: 2.5, distance: 180},
+            {name: 'Mars', radius: 2.2, distance: 240},
+            {name: 'Jupiter', radius: 5, distance: 400}
+        ];
+        
+        planetNames.forEach(p => {
+            p.mesh = new THREE.Mesh(
+                new THREE.SphereGeometry(p.radius * 1.2, 32, 32),
+                new THREE.MeshPhongMaterial({
+                    color: getPlanetColor(p.name),
+                    emissive: getPlanetColor(p.name),
+                    emissiveIntensity: 12,
+                    transparent: true,
+                    alphaTest: 0.5
+                })
+            );
+            p.mesh.position.z = p.distance;
+            const trajectoryRing = createRingGeometry(p.radius * 1.5, p.distance);
+            scene.add(trajectoryRing);
+            scene.add(p.mesh);
+            planets.push(p);
+        });
+        
+        function getPlanetColor(name) {
+            switch(name) {
+                case 'Mercury': return 0xf00;
+                case 'Venus': return 0xffc;
+                case 'Earth': return 0x00f3;
+                case 'Mars': return 0xf90;
+                case 'Jupiter': return 0xde3;
+                default: return 0x000000;
+            }
+        }
+        
+        function createRingGeometry(innerRadius, outerRadius) {
+            const innerGeometry = new THREE.RingGeometry(innerRadius, outerRadius, 100, 1);
+            const ringMaterial = new THREE.MeshBasicMaterial({color: 0x3333ff, depthWrite: false, transparent: true, opacity: 0.3});
+            return new THREE.Mesh(innerGeometry, ringMaterial);
+        }
+        
+        // Add some background stars
+        scene.add(stars);
+        
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambientLight);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(-100, 100, 100);
+        directionalLight.shadow.radius = 3;
+        scene.add(directionalLight);
+        
+        // Function to create stats display
+        const stats = {
+            fps: 0
+        };
+        const statsElement = document.getElementById('stats');
+        const fpsElement = document.getElementById('fps');
+        
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            
+            // Planet movement
+            planets.forEach(p => {
+                p.mesh.rotation.y += 0.01 * (1 - p.radius / 5);
+                p.mesh.rotation.x += 0.005;
+                p.mesh.rotation.z += 0.003;
+            });
+            
+            // Create real-time stats
+            stats.fps = renderer.info.render.fps.toFixed(0);
+            statsElement.innerHTML = `FPS: ${stats.fps}`;
+            planets.forEach(p => { 
+                p.mesh.rotation.y += 0.02 * (100 - p.distance) / 100; 
+            });
+            
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Resize handler
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
     </script>
 </body>
 </html>
