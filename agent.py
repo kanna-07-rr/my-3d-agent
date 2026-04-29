@@ -2,6 +2,7 @@ import os, requests, json
 
 KEY = os.environ["OPENROUTER_API_KEY"]
 PROMPT = os.environ.get("SITE_PROMPT", "Build a 3D rotating cube website")
+PROMPT = PROMPT[:2000]  # ✅ Truncate long prompts
 
 SYSTEM = """You are a 3D web developer. Output ONLY a single complete
 HTML file. Use Three.js from CDN. Make it visually stunning.
@@ -14,11 +15,12 @@ res = requests.post(
         "Content-Type": "application/json"
     },
     json={
-        "model": "openrouter/free",
+        "model": "meta-llama/llama-3.3-70b-instruct:free",
         "messages": [
             {"role": "system", "content": SYSTEM},
             {"role": "user", "content": PROMPT}
-        ]
+        ],
+        "max_tokens": 8000  # ✅ Ensure full HTML is generated
     }
 )
 
@@ -26,8 +28,14 @@ print("STATUS:", res.status_code)
 response_json = res.json()
 print("RESPONSE:", json.dumps(response_json, indent=2))
 
+# ✅ Error handling
+if res.status_code != 200 or "choices" not in response_json:
+    print("❌ API Error!")
+    exit(1)
+
 html = response_json["choices"][0]["message"]["content"]
 
+# ✅ Strip markdown if model wraps in code blocks
 if html.startswith("```"):
     html = html.split("\n", 1)[1].rsplit("```", 1)[0]
 
