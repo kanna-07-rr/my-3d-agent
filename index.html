@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RR CARS | Ultimate Luxury</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Inter:wght@300;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #050505;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+        }
+
+        canvas {
+            display: block;
+        }
+
+        #ui-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 40px;
+            box-sizing: border-box;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            pointer-events: auto;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 2rem;
+            letter-spacing: 5px;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+        }
+
+        .menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+        }
+
+        .menu li {
+            cursor: pointer;
+            transition: 0.3s;
+            opacity: 0.7;
+        }
+
+        .menu li:hover {
+            opacity: 1;
+            color: #00f2ff;
+        }
+
+        .hero {
+            pointer-events: auto;
+            max-width: 600px;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            margin: 0;
+            line-height: 1;
+            text-transform: uppercase;
+            background: linear-gradient(to right, #fff, #00f2ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: #aaa;
+            margin: 20px 0 40px 0;
+            line-height: 1.6;
+        }
+
+        .cta {
+            display: inline-block;
+            padding: 15px 40px;
+            border: 1px solid #00f2ff;
+            color: #00f2ff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: 0.3s;
+            cursor: pointer;
+            background: rgba(0, 242, 255, 0.05);
+        }
+
+        .cta:hover {
+            background: #00f2ff;
+            color: #000;
+            box-shadow: 0 0 30px #00f2ff;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            color: #555;
+        }
+
+        .controls-hint {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px 20px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="ui-layer">
+        <nav>
+            <div class="logo">RR CARS</div>
+            <ul class="menu">
+                <li>Inventory</li>
+                <li>Customization</li>
+                <li>Performance</li>
+                <li>Contact</li>
+            </ul>
+        </nav>
+
+        <div class="hero">
+            <h1>THE NEXT<br>EVOLUTION</h1>
+            <p>Experience the pinnacle of automotive engineering. Where luxury meets raw power in a seamless fusion of carbon fiber and neon light.</p>
+            <a class="cta">Explore Model X</a>
+        </div>
+
+        <div class="footer">
+            <div class="controls-hint">DRAG TO ROTATE • SCROLL TO ZOOM</div>
+            <div>© 2024 RR AUTOMOTIVE GROUP</div>
+        </div>
+    </div>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        // Scene Setup
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x020202);
+        scene.fog = new THREE.Fog(0x020202, 10, 50);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(5, 2, 8);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.toneMapping = THREE.ReinhardToneMapping;
+        renderer.toneMappingExposure = 2;
+        document.body.appendChild(renderer.domElement);
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.autoRotate = true;
+        controls.autoRotateSpeed = 0.5;
+        controls.maxPolarAngle = Math.PI / 2.1; // Prevent going under floor
+
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0x404040, 0.5);
+        scene.add(ambientLight);
+
+        const mainLight = new THREE.SpotLight(0x00f2ff, 100);
+        mainLight.position.set(5, 10, 5);
+        mainLight.castShadow = true;
+        scene.add(mainLight);
+
+        const rimLight = new THREE.SpotLight(0xff00ff, 80);
+        rimLight.position.set(-5, 5, -5);
+        scene.add(rimLight);
+
+        // Create a stylized futuristic car using primitives (since we don't have an external GLTF)
+        const carGroup = new THREE.Group();
+
+        // Car Body (Sleek base)
+        const bodyGeom = new THREE.BoxGeometry(4, 0.6, 2);
+        const bodyMat = new THREE.MeshStandardMaterial({ 
+            color: 0x111111, 
+            metalness: 1, 
+            roughness: 0.1 
+        });
+        const body = new THREE.Mesh(bodyGeom, bodyMat);
+        carGroup.add(body);
+
+        // Cockpit
+        const cockpitGeom = new THREE.BoxGeometry(1.8, 0.5, 1.5);
+        const cockpitMat = new THREE.MeshStandardMaterial({ 
+            color: 0x000000, 
+            metalness: 1, 
+            roughness: 0, 
+            transparent: true, 
+            opacity: 0.7 
+        });
+        const cockpit = new THREE.Mesh(cockpitGeom, cockpitMat);
+        cockpit.position.set(-0.2, 0.5, 0);
+        carGroup.add(cockpit);
+
+        // Wheels
+        const wheelGeom = new THREE.CylinderGeometry(0.4, 0.4, 0.4, 32);
+        const wheelMat = new THREE.MeshStandardMaterial({ color: 0x050505, metalness: 1 });
+        
+        const wheelPositions = [
+            [1.3, -0.2, 1], [1.3, -0.2, -1],
+            [-1.3, -0.2, 1], [-1.3, -0.2, -1]
+        ];
+
+        wheelPositions.forEach(pos => {
+            const wheel = new THREE.Mesh(wheelGeom, wheelMat);
+            wheel.rotation.x = Math.PI / 2;
+            wheel.position.set(...pos);
+            carGroup.add(wheel);
+
+            // Neon Ring on Wheel
+            const ringGeom = new THREE.TorusGeometry(0.35, 0.02, 16, 100);
+            const ringMat = new THREE.MeshBasicMaterial({ color: 0x00f2ff });
+            const ring = new THREE.Mesh(ringGeom, ringMat);
+            ring.rotation.x = Math.PI / 2;
+            ring.position.set(...pos);
+            carGroup.add(ring);
+        });
+
+        // Headlights
+        const lightGeom = new THREE.BoxGeometry(0.1, 0.1, 0.4);
+        const lightMat = new THREE.MeshBasicMaterial({ color: 0x00f2ff });
+        const hLeft = new THREE.Mesh(lightGeom, lightMat);
+        hLeft.position.set(2, 0, 0.6);
+        carGroup.add(hLeft);
+
+        const hRight = new THREE.Mesh(lightGeom, lightMat);
+        hRight.position.set(2, 0, -0.6);
+        carGroup.add(hRight);
+
+        // Tail lights
+        const tailMat = new THREE.MeshBasicMaterial({ color: 0xff0055 });
+        const tLeft = new THREE.Mesh(lightGeom, tailMat);
+        tLeft.position.set(-2, 0, 0.6);
+        carGroup.add(tLeft);
+
+        const tRight = new THREE.Mesh(lightGeom, tailMat);
+        tRight.position.set(-2, 0, -0.6);
+        carGroup.add(tRight);
+
+        scene.add(carGroup);
+
+        // Showroom Floor
+        const floorGeom = new THREE.PlaneGeometry(100, 100);
+        const floorMat = new THREE.MeshStandardMaterial({ 
+            color: 0x050505, 
+            metalness: 0.9, 
+            roughness: 0.1 
+        });
+        const floor = new THREE.Mesh(floorGeom, floorMat);
+        floor.rotation.x = -Math.PI / 2;
+        floor.position.y = -0.6;
+        scene.add(floor);
+
+        // Neon Grid Floor
+        const gridHelper = new THREE.GridHelper(100, 40, 0x00f2ff, 0x222222);
+        gridHelper.position.y = -0.59;
+        scene.add(gridHelper);
+
+        // Particles for atmosphere
+        const partGeom = new THREE.BufferGeometry();
+        const partCount = 1000;
+        const posArray = new Float32Array(partCount * 3);
+        for(let i=0; i < partCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 50;
+        }
+        partGeom.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const partMat = new THREE.PointsMaterial({ size: 0.05, color: 0x00f2ff, transparent: true, opacity: 0.5 });
+        const particles = new THREE.Points(partGeom, partMat);
+        scene.add(particles);
+
+        // Animation Loop
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            // Floating effect
+            carGroup.position.y = Math.sin(Date.now() * 0.002) * 0.1;
+            
+            // Rotate particles
+            particles.rotation.y += 0.001;
+
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        animate();
+    </script>
+</body>
+</html>
