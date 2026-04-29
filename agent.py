@@ -14,7 +14,7 @@ res = requests.post(
         "Content-Type": "application/json"
     },
     json={
-        "model": "google/gemma-3-4b-it:free",
+        "model": "openrouter/free",
         "messages": [
             {"role": "system", "content": SYSTEM},
             {"role": "user", "content": PROMPT}
