@@ -1,223 +1,124 @@
-Here is a complete HTML file with embedded JavaScript to create a visually stunning 3D solar system using [Three.js](https://threejs.org/) from a CDN. This implementation includes the Sun, 8 planets, orbits, stars, and orbit controls for easy navigation.
-
-```html
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>3D Solar System</title>
+    <meta charset="UTF-8">
+    <title>RR Cars 3D Showroom</title>
     <style>
-        body { margin: 0; overflow: hidden; }
-        canvas { display: block; }
+        body { margin: 0; overflow: hidden; background: #000; }
+        #controls { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+            text-align: center; color: #fff; }
+        #controls button { padding: 10px 20px; margin: 0 10px; font-family: sans-serif; cursor: pointer;
+            border: 1px solid #444; transition: background 0.3s; background: rgba(0,0,0,0.5); }
+        #controls button:hover { background: rgba(255,0,0,0.6); }
+        #title { position: absolute; top: 50px; left: 50%; transform: translateX(-50%);
+            font-family: 'Courier New', Courier, monospace; font-size: 40px; text-align: center;
+            color: #0ff; animation: scale 2s infinite; }
+        @keyframes scale { 0% { transform: translateX(-50%) scale(1); }
+                          50% { transform: translateX(-50%) scale(1.1); }
+                          100% { transform: translateX(-50%) scale(1); } }
     </style>
 </head>
 <body>
-    <script src="https://threejs.org/build/three.min.js"></script>
-    <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
-    <script>
+    <div id="title">RR Cars</div>
+    <div id="controls">
+        <button onclick="rotateCar()">Rotate Car</button>
+        <button onclick="toggleNeon()">Neon Lights</button>
+    </div>
+    <script type="module">
+        import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js';
+        import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/controls/OrbitControls.js';
+        import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/loaders/GLTFLoader.js';
+        import { LineSegments, LineBasicMaterial, MeshBasicMaterial, Vector3 } from 'https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js';
+
+        const canvas = document.createElement('canvas');
+        document.body.appendChild(canvas);
+
         const scene = new THREE.Scene();
         scene.background = new THREE.Color(0x000000);
-        const camera = new THREE.PerspectiveCamera(
-            60,
-            window.innerWidth / window.innerHeight,
-            0.1,
-            1000
-        );
-        camera.position.set(0, 0, 100);
-
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({canvas});
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setClearColor(scene.background);
-        document.body.appendChild(renderer.domElement);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        scene.add(new THREE.AmbientLight(0x404040));
 
-        // Lights
-        const ambientLight = new THREE.AmbientLight(0x404040);
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-        directionalLight.position.set(100, 100, 100);
-        scene.add(ambientLight, directionalLight);
+        const loader = new GLTFLoader();
+        let carModel, neonActive = true;
+        let orbitControls;
 
-        // Create stars
-        const starsGroup = new THREE.Group();
-        const starCount = 1000;
-        const starMaterial = new THREE.PointsMaterial({
-            color: 0xffffff,
-            size: 0.5
-        });
-        const starGeometry = new THREE.SphereGeometry(0.3, 8, 8);
-
-        for (let i = 0; i < starCount; i++) {
-            const star = new THREE.Mesh(starGeometry, starMaterial.clone());
-            star.position.x = Math.random() * 400 - 200;
-            star.position.y = Math.random() * 400 - 200;
-            star.position.z = Math.random() * 400 - 200;
-            star.material = starMaterial.clone().copy((velocity);
-            starsGroup.add(star);
-        }
-        scene.add(starsGroup);
-
-        // Planets and orbits data
-        const planetData = [
-            {
-                name: 'Mercury',
-                size: 0.35,
-                orbitRadius: 0.4,
-                color: 0xffd700,
-                emissive: 0xffd700,
-                speed: 0.0003
-            },
-            {
-                name: 'Venus',
-                size: 0.95,
-                orbitRadius: 0.72,
-                color: 0xff69b4,
-                emissive: 0x8b008b,
-                speed: 0.0002
-            },
-            {
-                name: 'Earth',
-                size: 1,
-                orbitRadius: 1,
-                color: 0x0000bd,
-                emissive: 0x00 HeatmapColor(),
-                speed: 0.00015
-            },
-            {
-                name: 'Mars',
-                size: 0.53,
-                orbitRadius: 1.52,
-                color: 0x8b0000,
-                emissive: 0xff4500,
-                speed: 0.0001
-            },
-            {
-                name: 'Jupiter',
-                size: 11,
-                orbitRadius: 5.2,
-                color: 0xd2691e,
-                emissive: 0xf5a623,
-                speed: 0.00007
-            },
-            {
-                name: 'Saturn',
-                size: 9,
-                orbitRadius: 9.6,
-                color: 0x87ceeb,
-                emissive: 0x00ccff,
-                speed: 0.00005
-            },
-            {
-                name: 'Uranus',
-                size: 4,
-                orbitRadius: 19.8,
-                color: 0x4682b4,
-                emissive: 0xadd8e6,
-                speed: 0.000035
-            },
-            {
-                name: 'Neptune',
-                size: 3.9,
-                orbitRadius: 30.05,
-                color: 0x0000ff,
-                emissive: 0x00bfff,
-                speed: 0.00003
-            }
-        ];
-
-        // Helper functions
-        const AU_SCALE = 0.01;
-
-        function createOrbit(planet) {
-            const mesh = new THREE.Mesh(
-                new THREE.SphereGeometry(planet.orbitRadius * AU_SCALE, 16, 16),
-                new THREE.MeshStandardMaterial({
-                    color: new THREE.Color(planet.color),
-                    transparent: true,
-                    opacity: 0.15,
-                    wireframe: true,
-                    linewidth: 0.9
-                })
-            );
-            scene.add(mesh);
-        }
-
-        function createPlanet(planet) {
-            const geometry = new THREE.SphereGeometry(
-                planet.size * AU_SCALE,
-                32,
-                32
-            );
-            const planetMesh = new THREE.Mesh(
-                geometry,
-                new THREE.MeshStandardMaterial({
-                    color: new THREE.Color(planet.color),
-                    emissive: new THREE.Color(planet.emissive),
-                    emissiveIntensity: 0.7,
-                    metal: 0.7,
-                    transparent: true,
-                    opacity: 1,
-                    reflectivity: 0.4
-                })
-            );
-            planetMesh.rotation.x = -Math.PI / 2; // Face up
-
-            const group = new THREE.Group();
-            group.add(planetMesh);
-            group.rotation.y = 0;
-            group.speed = planet.speed;
-            scene.add(group);
-            return group;
-        }
-
-        // Create all orbits and planets
-        const planetGroups = [];
-        scene.add(createPlanet(await planetData[0])); // Sun
-        planetData.slice(1).forEach(createOrbit);
-        planetData.slice(1).forEach(createPlanet);
-
-        // Animation loop
-        let then = performance.now();
-        function animate(now) {
+        loader.load('https://threejs.org/examples/models/gltf/Mercedes-AMG/mercedes-amg.gltf', (gltf) => {
+            carModel = gltf.scene;
+            carModel.position.set(0, -1.5, 0);
+            scene.add(carModel);
+            
+            camera.position.set(0, 2, 5);
+            orbitControls = new OrbitControls(camera, canvas);
+            orbitControls.enableDamping = true;
+            orbitControls.rotateSpeed = 0.05;
+            orbitControls.zoomSpeed = 0.5;
+            orbitControls.dampingFactor = 0.5;
+            
             requestAnimationFrame(animate);
-            const elapsed = (now - then) / 1000;
-            then = now;
+        });
 
-            planetData.slice(1).forEach((pd, index) => {
-                const group = scene.getObjectByName(pd.name + "-group");
-                if (group) {
-                    group.rotation.y += pd.speed * elapsed;
-                }
-            });
-
-            renderer.render(scene, camera);
+        function rotateCar() {
+            if(carModel) {
+                carModel.rotation.y += Math.PI / 4;
+            }
         }
-        animate();
 
-        // Resize handling
+        function toggleNeon() {
+            neonActive = !neonActive;
+            for(let lane of neonLanes) {
+                lane.material.visible = neonActive;
+            }
+        }
+
+        const neonLanes = [];
+        function createNeonLights(geometry, color) {
+            const lineMaterial = new LineBasicMaterial({ color });
+            const lineSegments = new LineSegments(geometry, lineMaterial);
+            scene.add(lineSegments);
+            neonLanes.push(lineSegments);
+            return lineSegments;
+        }
+
+        function animate() {
+            renderer.clear();
+            if(carModel) {
+                carModel.rotation.y += 0.01;
+            }
+            if(neonActive) {
+                updateNeonPulse();
+            }
+            requestAnimationFrame(animate);
+        }
+
+        function updateNeonPulse() {
+            for(let i = 0; i < neonLanes.length; i++) {
+                neonLanes[i].children[i].scale.x = Math.sin(Date.now() * 0.002 + i) * 1.2 + 0.8;
+            }
+        }
+
+        function addNeonStrip() {
+            const points = [];
+            // Car roof
+            points.push(new Vector3(-3.5, 1.5, -1.5));
+            points.push(new Vector3(3.5, 1.5, -1.5));
+            createNeonLights(new THREE.BufferGeometry().setFromPoints(points), 0x00ffcc);
+            
+            // Car light lines
+            const leftLights = [new Vector3(-1.5, 1.5, -1.5), new Vector3(-1.5, 1.5, 1.5)];
+            const rightLights = [new Vector3(1.5, 1.5, -1.5), new Vector3(1.5, 1.5, 1.5)];
+            createNeonLights(new THREE.BufferGeometry().setFromPoints(leftLights), 0xff00ff);
+            createNeonLights(new THREE.BufferGeometry().setFromPoints(rightLights), 0x00ffff);
+        }
+
+        addNeonStrip();
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
-
-        // Controls
-        const controls = new THREE.OrbitControls(camera, renderer.domElement);
-        controls.enableDamping = true;
-        controls.enableRotate = true;
-        controls.enableZoom = true;
     </script>
 </body>
 </html>
-```
-
-### ✅ Features:
-- **Sun & Planets:** Realistic planet sizes and colors with emissive glows.
-- **Orbits:** Semi-transparent spheres drawn to scale around each planet.
-- **Stars:** A field of 1,000 tiny stars scattered in the background.
-- **Camera Controls:** Users can rotate and zoom in/out using their mouse.
-- **Performance:** Efficient render loop and lightweight geometry for smooth animation.
-
-### 📌 Notes:
-- The Sun is scaled to be 100 units large for visual prominence.
-- Planetary sizes and orbit distances are scaled using an Astronomical Unit (AU) scale of `0.01`.
-- Planet rotation speeds are adjusted for visual appeal, simulating orbital movement.
-
-You can copy this code into a `.html` file and open it in a browser to see the interactive 3D solar system.
