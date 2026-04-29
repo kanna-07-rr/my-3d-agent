@@ -14,7 +14,7 @@ res = requests.post(
         "Content-Type": "application/json"
     },
     json={
-        "model": "meta-llama/llama-3.3-8b-instruct:free",
+        "model": "mistralai/mistral-7b-instruct:free",
         "messages": [
             {"role": "system", "content": SYSTEM},
             {"role": "user", "content": PROMPT}
