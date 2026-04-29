@@ -8,7 +8,7 @@ HTML file. Use Three.js from CDN. The site must be visually
 stunning and interactive. No markdown, no explanation —
 just raw HTML starting with <!DOCTYPE html>."""
 
-url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
+url = "https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent"
 
 payload = {
     "contents": [{"parts": [{"text": f"{SYSTEM}\n\nUSER REQUEST: {PROMPT}"}]}],
@@ -21,14 +21,12 @@ res = requests.post(
     headers={"Content-Type": "application/json"}
 )
 
-# Print full response so we can debug
-print("STATUS CODE:", res.status_code)
-print("RESPONSE:", json.dumps(res.json(), indent=2))
-
+print("STATUS:", res.status_code)
 response_json = res.json()
+print("RESPONSE:", json.dumps(response_json, indent=2))
 
 if "candidates" not in response_json:
-    print("❌ API ERROR - Key might be wrong or quota exceeded")
+    print("❌ API ERROR")
     exit(1)
 
 html = response_json["candidates"][0]["content"]["parts"][0]["text"]
@@ -39,4 +37,4 @@ if html.startswith("```"):
 with open("index.html", "w") as f:
     f.write(html)
 
-print("✅ Done! index.html generated.")
+print("✅ Done!")
