@@ -4,26 +4,25 @@ on:
   workflow_dispatch:
     inputs:
       prompt:
-        description: "Describe the 3D website you want"
+        description: "Describe the 3D website"
         required: true
-        default: "Luxury cyber-tech portfolio with floating 3D circuits"
+        default: "Premium 3D space portfolio"
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     permissions:
       contents: write
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: Install dependencies
-        run: pip install requests
+      - run: pip install requests
 
       - name: Run Agent
         env:
@@ -31,10 +30,10 @@ jobs:
           SITE_PROMPT: ${{ github.event.inputs.prompt }}
         run: python agent.py
 
-      - name: Push site to GitHub
+      - name: Commit Output
         run: |
           git config user.name "AgentBot"
-          git config user.email "agent@bot.com"
+          git config user.email "bot@agent.com"
           git add index.html
-          git diff --staged --quiet || git commit -m "Built: ${{ github.event.inputs.prompt }}"
+          git commit -m "Build site" || echo "No changes"
           git push
