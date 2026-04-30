@@ -105,7 +105,13 @@ Colors: bg={plan['color_bg']}, primary={plan['color_primary']}
 GSAP already loaded. Make it premium and stunning.""",
         max_tokens=4000
     )
-    html = re.sub(r'```html|```', '', html).strip()
+    if not html:
+        print(f"    WARNING: Empty response, using placeholder")
+        html = f'<section id="{section["id"]}"><div style="padding:100px;text-align:center;color:#FFD700"><h2>{section["name"]}</h2></div></section>'
+    else:
+        html = re.sub(r'```html|```', '', html).strip()
+    if not html:
+        html = f'<section id="{section["id"]}"><div style="padding:100px;text-align:center;color:#FFD700"><h2>{section["name"]}</h2></div></section>'
     sections_html.append(html)
     print(f"    {len(html)} chars")
 
