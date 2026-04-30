@@ -34,9 +34,9 @@ jobs:
       run: python agent.py
 
     - name: Push site to GitHub
-      run: |
-        git config user.name "AgentBot"
-        git config user.email "agent@bot.com"
-        git add index.html
-        git commit -m "Built: ${{ github.event.inputs.prompt }}"
-        git push
+  run: |
+    git config user.name "AgentBot"
+    git config user.email "agent@bot.com"
+    git add index.html
+    git diff --staged --quiet || git commit -m "Built: R Bawarchi site"
+    git push
