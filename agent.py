@@ -1,6 +1,6 @@
 import os, requests, json, re
 
-ANTHROPIC_KEY = os.environ["ANTHROPIC_API_KEY"]
+ANTHROPIC_KEY = os.environ["OPENROUTER_API_KEY"]
 USER_PROMPT = os.environ.get("SITE_PROMPT", "Build a 3D rotating cube website")
 
 def call_claude(system, user, max_tokens=8096):
