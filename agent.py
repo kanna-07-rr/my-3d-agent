@@ -1,4 +1,4 @@
-import os, requests, json, re, time
+import os, requests, json, time
 
 # ==============================
 # CONFIG
@@ -6,22 +6,19 @@ import os, requests, json, re, time
 KEY = os.environ.get("OPENROUTER_API_KEY")
 USER_PROMPT = os.environ.get("SITE_PROMPT", "A premium luxury 3D automotive showcase")
 
+if not KEY:
+    raise Exception("❌ Missing OPENROUTER_API_KEY")
+
 # ==============================
-# CLEAN AI OUTPUT
+# CLEAN AI OUTPUT (FIXED)
 # ==============================
 def clean_code(content):
     if not content:
         return ""
 
-    # Remove markdown blocks
-    content = re.sub(r"```.*?```", "", content, flags=re.DOTALL)
-
-    # Extract JSON only
-    match = re.search(r"\{.*\}", content, re.DOTALL)
-    if match:
-        return match.group(0)
-
-    return content.strip()
+    # Remove markdown wrappers but KEEP content
+    content = content.replace("```json", "").replace("```", "").strip()
+    return content
 
 # ==============================
 # AI CALL FUNCTION
@@ -49,12 +46,13 @@ def call_ai(system_prompt, user_message):
 
             data = res.json()
 
-            # DEBUG FULL RESPONSE
-            print("🔎 API RAW RESPONSE:", data)
+            # DEBUG (important)
+            print("🔎 API RESPONSE:", data)
 
             if "choices" not in data:
                 print("❌ API ERROR:", data)
-                return ""
+                time.sleep(3)
+                continue
 
             content = data["choices"][0]["message"]["content"]
             return clean_code(content)
@@ -68,19 +66,19 @@ def call_ai(system_prompt, user_message):
 print(f"🚀 Building site for: {USER_PROMPT}")
 
 # ==============================
-# STEP 1: PLAN (STRICT JSON)
+# STEP 1: PLAN
 # ==============================
-plan_sys = "You are a strict JSON generator. Output ONLY valid JSON."
+plan_sys = "You are a strict JSON generator. Output ONLY valid JSON. No explanation."
 
 plan_usr = f"""
 Create a 3D website plan.
 
-Return STRICT JSON ONLY like this:
+Return ONLY JSON:
 {{
 "name": "Luxury 3D Site",
-"colors": {{"bg": "#000000", "accent": "#ffcc00"}},
+"colors": {{"bg": "#0a0a0a", "accent": "#ffcc00"}},
 "sections": [
-{{"id": "hero", "title": "Hero Section", "3d_obj_desc": "Rotating futuristic car"}},
+{{"id": "hero", "title": "Hero Section", "3d_obj_desc": "Rotating futuristic object"}},
 {{"id": "about", "title": "About", "3d_obj_desc": "Floating glass panels"}}
 ]
 }}
@@ -90,39 +88,52 @@ Topic: {USER_PROMPT}
 
 plan_raw = call_ai(plan_sys, plan_usr)
 
-print("🧠 PLAN RAW OUTPUT:\n", plan_raw)
+print("🧠 PLAN RAW:\n", plan_raw)
 
+# Fallback if AI fails
 if not plan_raw:
-    raise Exception("❌ AI returned empty plan")
-
-try:
-    plan = json.loads(plan_raw)
-except Exception as e:
-    print("❌ INVALID JSON:\n", plan_raw)
-    raise e
+    print("⚠️ Using fallback plan")
+    plan = {
+        "name": "Fallback 3D Site",
+        "colors": {"bg": "#000000", "accent": "#00ffcc"},
+        "sections": [
+            {"id": "hero", "title": "Hero", "3d_obj_desc": "Rotating cube"},
+            {"id": "about", "title": "About", "3d_obj_desc": "Floating shapes"}
+        ]
+    }
+else:
+    try:
+        plan = json.loads(plan_raw)
+    except Exception as e:
+        print("❌ JSON ERROR, using fallback")
+        plan = {
+            "name": "Safe Mode Site",
+            "colors": {"bg": "#000000", "accent": "#ff0000"},
+            "sections": [
+                {"id": "hero", "title": "Hero", "3d_obj_desc": "Basic 3D object"}
+            ]
+        }
 
 # ==============================
 # STEP 2: CSS
 # ==============================
 css = call_ai(
     "You are an elite UI designer. Output ONLY CSS.",
-    f"Create premium CSS using colors {plan['colors']} with glassmorphism and luxury fonts."
+    f"Create premium dark theme CSS using colors {plan['colors']}."
 )
 
 # ==============================
-# STEP 3: JS (THREE + GSAP)
+# STEP 3: JS
 # ==============================
 js = call_ai(
     "You are a Three.js expert. Output ONLY JavaScript.",
     f"""
-Create 3D scenes for sections: {[s['id'] for s in plan['sections']]}.
+Create simple 3D scenes for sections: {[s['id'] for s in plan['sections']]}.
 
 Requirements:
 - Use Three.js
-- Each section has its own canvas: canvas_ID
-- Use MeshPhysicalMaterial
-- Add rotation animation
-- Use GSAP ScrollTrigger
+- Create rotating cube/sphere
+- Each section uses canvas canvas_ID
 """
 )
 
@@ -136,45 +147,27 @@ for s in plan['sections']:
 <section id="{s['id']}" style="height:100vh;position:relative;">
     <canvas id="canvas_{s['id']}" style="position:absolute;width:100%;height:100%;"></canvas>
 
-    <div style="
-        position:relative;
-        z-index:10;
-        text-align:center;
-        padding-top:20%;
-        color:white;
-    ">
+    <div style="position:relative;z-index:10;text-align:center;color:white;padding-top:20%;">
         <h1>{s['title']}</h1>
         <p>{s['3d_obj_desc']}</p>
     </div>
 </section>
 """
 
-# ==============================
-# FINAL HTML
-# ==============================
 html = f"""<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <title>{plan['name']}</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
 <style>
 body {{
-    margin: 0;
-    background: {plan['colors']['bg']};
-    color: white;
-    font-family: Arial, sans-serif;
-    overflow-x: hidden;
-}}
-
-section {{
-    display:flex;
-    justify-content:center;
-    align-items:center;
+    margin:0;
+    background:{plan['colors']['bg']};
+    color:white;
+    font-family:Arial;
 }}
 
 {css}
@@ -183,22 +176,9 @@ section {{
 
 <body>
 
-<nav style="
-position:fixed;
-top:0;
-width:100%;
-padding:20px;
-text-align:center;
-z-index:100;
-font-weight:bold;
-">
-{plan['name']}
-</nav>
-
 {sections_html}
 
 <script>
-gsap.registerPlugin(ScrollTrigger);
 {js}
 </script>
 
