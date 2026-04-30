@@ -11,6 +11,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       contents: write
 
@@ -23,7 +24,7 @@ jobs:
       with:
         python-version: "3.11"
 
-    - name: Install requests
+    - name: Install dependencies
       run: pip install requests
 
     - name: Run Agent
@@ -37,5 +38,5 @@ jobs:
         git config user.name "AgentBot"
         git config user.email "agent@bot.com"
         git add index.html
-        git commit -m "🤖 Built: ${{ github.event.inputs.prompt }}"
+        git commit -m "Built: ${{ github.event.inputs.prompt }}"
         git push
