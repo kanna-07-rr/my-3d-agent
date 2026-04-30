@@ -13,28 +13,28 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    steps:  
-      - name: Checkout  
-        uses: actions/checkout@v4  
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Setup Python  
-        uses: actions/setup-python@v5  
-        with:  
-          python-version: "3.11"  
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
 
-      - name: Install dependencies  
-        run: pip install requests  
+      - name: Install dependencies
+        run: pip install requests
 
-      - name: Run Agent  
-        env:  
-          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}  
-          SITE_PROMPT: ${{ github.event.inputs.prompt }}  
-        run: python agent.py  
+      - name: Run Agent
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          SITE_PROMPT: ${{ github.event.inputs.prompt }}
+        run: python agent.py
 
-      - name: Push site to GitHub  
-        run: |  
-          git config user.name "AgentBot"  
-          git config user.email "agent@bot.com"  
-          git add index.html  
-          git diff --staged --quiet || git commit -m "Built: ${{ github.event.inputs.prompt }}"  
+      - name: Push site to GitHub
+        run: |
+          git config user.name "AgentBot"
+          git config user.email "agent@bot.com"
+          git add index.html
+          git diff --staged --quiet || git commit -m "Built: ${{ github.event.inputs.prompt }}"
           git push
