@@ -11,7 +11,7 @@ def call_ai(system, user, max_tokens=8000):
             "Content-Type": "application/json",
         },
         json={
-            "model": "google/gemini-2.0-flash-exp:free",
+            "model": "openrouter/free",
             "messages": [
                 {"role": "system", "content": system},
                 {"role": "user", "content": user}
