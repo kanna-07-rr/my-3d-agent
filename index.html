@@ -1,789 +1,407 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aura Coffee | Elevate Your Everyday Ritual</title>
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Lato&display=swap" rel="stylesheet">
-    
-    <!-- Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    
-    <style>
-        :root {
-            --bg: #f8f8f8;
-            --primary: #4a3c31;
-            --accent: #d4b48f;
-            --text: #333333;
-        }
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Montserrat', sans-serif;
-            overflow-x: hidden;
-            margin: 0;
-            padding: 0;
-        }
-        /* AI Generated CSS */
-        /* 1. Reset margin/padding */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+<meta charset="UTF-8">
+<title>Premium 3D Space Portfolio</title>
 
-/* 2. Smooth scrolling */
-html {
-  scroll-behavior: smooth;
-}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
-/* Color Palette */
-:root {
-  --background: #f8f8f8;
-  --primary: #4a3c31;
-  --accent: #d4b48f;
-  --text: #333333;
-  --text-light: #ffffff;
-}
-
+<style>
 body {
-  font-family: 'Inter', sans-serif; /* Modern, clean font */
-  background-color: var(--background);
-  color: var(--text);
-  line-height: 1.6;
-  overflow-x: hidden; /* Prevent horizontal scroll */
+    margin:0;
+    background:#1a1a2e;
+    color:white;
+    font-family:Arial;
 }
 
+css
+/* Premium Dark Theme */
+
+/* General Body Styles */
+body {
+    background-color: #1a1a2e;
+    color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+/* Accent Color */
+:root {
+    --bg-color: #1a1a2e;
+    --accent-color: #00f9ff;
+    --text-color: #ffffff;
+}
+
+/* Headings */
 h1, h2, h3, h4, h5, h6 {
-  color: var(--primary);
-  margin-bottom: 0.8em;
-  font-weight: 600;
+    color: var(--accent-color);
+    margin-bottom: 0.5em;
 }
 
+h1 { font-size: 2.5em; }
+h2 { font-size: 2em; }
+h3 { font-size: 1.75em; }
+h4 { font-size: 1.5em; }
+h5 { font-size: 1.25em; }
+h6 { font-size: 1em; }
+
+/* Paragraphs and Text */
 p {
-  margin-bottom: 1em;
+    margin-bottom: 1em;
 }
 
 a {
-  color: var(--accent);
-  text-decoration: none;
-  transition: color 0.3s ease;
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
 }
 
-a:hover {
-  color: var(--primary);
+a:hover, a:focus {
+    color: #4ddaff; /* Slightly lighter accent on hover */
+    text-decoration: underline;
 }
 
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1em;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* 3. Glassmorphism effects */
-.glassmorphic {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 16px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+.btn-primary {
+    background-color: var(--accent-color);
+    color: var(--bg-color); /* Text color on accent background */
 }
 
-/* General Layout */
+.btn-primary:hover, .btn-primary:focus {
+    background-color: #4ddaff; /* Lighter accent */
+    color: var(--bg-color);
+    box-shadow: 0 0 15px rgba(0, 249, 255, 0.5); /* Glow effect */
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--accent-color);
+    border: 1px solid var(--accent-color);
+}
+
+.btn-secondary:hover, .btn-secondary:focus {
+    background-color: rgba(0, 249, 255, 0.1);
+    color: var(--accent-color);
+    border-color: #4ddaff;
+}
+
+/* Forms */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+textarea,
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    background-color: #2a2a3e; /* Slightly lighter dark for inputs */
+    color: var(--text-color);
+    border: 1px solid #444;
+    border-radius: 5px;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="search"]:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--accent-color);
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 249, 255, 0.3);
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Cards and Containers */
+.card {
+    background-color: #2a2a3e;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
-/* 6. .section-container */
-.section-container {
-  position: relative;
-  min-height: 100vh;
-  overflow: hidden;
-  display: flex; /* Use flexbox for layout */
-  align-items: center; /* Center content vertically */
-  padding: 80px 0; /* Add vertical padding */
+/* Navigation */
+nav {
+    background-color: #2a2a3e;
+    padding: 15px 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
-.section-content {
-  position: relative; /* Ensure content is above canvas */
-  z-index: 10; /* Higher z-index than canvas */
-  flex-grow: 1; /* Allow content to take available space */
-  padding: 40px 0;
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
 }
 
-/* 5. Absolute positioning for .canvas-container */
-.canvas-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1; /* Behind content */
-  overflow: hidden; /* Ensure canvas content stays within bounds */
+nav ul li {
+    display: inline-block;
+    margin: 0 15px;
 }
 
-/* Example Section Styles */
-#hero {
-  background-color: var(--primary); /* Dark background for hero */
-  color: var(--text-light);
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  overflow: hidden; /* Ensure canvas doesn't break layout */
+nav ul li a {
+    color: var(--text-color);
+    font-weight: bold;
+    font-size: 1.1em;
+    transition: color 0.3s ease;
 }
 
-#hero .section-content {
-  z-index: 10;
-  padding: 100px 20px;
+nav ul li a:hover, nav ul li a:focus {
+    color: var(--accent-color);
 }
 
-#hero h1 {
-  font-size: 3.5em;
-  color: var(--text-light);
-  margin-bottom: 0.3em;
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
 }
 
-#hero p {
-  font-size: 1.2em;
-  max-width: 600px;
-  margin: 0 auto 1.5em;
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #444;
 }
 
-.cta-button {
-  display: inline-block;
-  background-color: var(--accent);
-  color: var(--primary);
-  padding: 15px 30px;
-  border-radius: 30px;
-  font-weight: 600;
-  font-size: 1.1em;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  box-shadow: 0 4px 15px rgba(212, 180, 143, 0.4);
+th {
+    background-color: #2a2a3e;
+    color: var(--accent-color);
+    font-weight: bold;
 }
 
-.cta-button:hover {
-  background-color: var(--primary);
-  color: var(--text-light);
-  transform: translateY(-3px);
+tr:nth-child(even) {
+    background-color: #202030; /* Subtle striping */
 }
 
-#about, #menu, #contact {
-  padding: 100px 0;
-  position: relative; /* For potential overlapping canvas elements */
+tr:hover {
+    background-color: #3a3a4e;
 }
 
-#about .section-content,
-#menu .section-content,
-#contact .section-content {
-  background: rgba(255, 255, 255, 0.6); /* Slightly transparent background for readability */
-  border-radius: 16px;
-  padding: 40px;
-  margin: 20px; /* Add some margin */
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+/* Alerts and Notifications */
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    font-weight: bold;
 }
 
-#about h2, #menu h2, #contact h2 {
-  text-align: center;
-  font-size: 2.5em;
-  margin-bottom: 1.5em;
+.alert-info {
+    background-color: rgba(0, 249, 255, 0.1);
+    color: var(--accent-color);
+    border: 1px solid var(--accent-color);
 }
 
-/* Menu Section Specifics */
-.menu-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 30px;
+.alert-success {
+    background-color: rgba(40, 167, 69, 0.1);
+    color: #28a745;
+    border: 1px solid #28a745;
 }
 
-.menu-item {
-  background-color: var(--background); /* Default background */
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+.alert-warning {
+    background-color: rgba(255, 193, 7, 0.1);
+    color: #ffc107;
+    border: 1px solid #ffc107;
 }
 
-.menu-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+.alert-danger {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+    border: 1px solid #dc3545;
 }
 
-.menu-item h3 {
-  color: var(--primary);
-  margin-bottom: 0.5em;
-  font-size: 1.4em;
+/* Modals */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
 }
 
-.menu-item .price {
-  color: var(--accent);
-  font-weight: 700;
-  font-size: 1.2em;
-  margin-top: 0.8em;
+.modal-content {
+    background-color: #2a2a3e;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+    position: relative;
+    max-width: 500px;
+    width: 90%;
 }
 
-/* Contact Section Specifics */
-.contact-form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  max-width: 600px;
-  margin: 0 auto;
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: #ccc;
+    transition: color 0.3s ease;
 }
 
-.contact-form input,
-.contact-form textarea {
-  padding: 15px;
-  border: 1px solid rgba(74, 60, 49, 0.3);
-  border-radius: 8px;
-  font-size: 1em;
-  color: var(--text);
-  background-color: rgba(255, 255, 255, 0.7); /* Slightly transparent input background */
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+.modal-close:hover {
+    color: var(--accent-color);
 }
 
-.contact-form input:focus,
-.contact-form textarea:focus {
-  outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(212, 180, 143, 0.3);
+/* Custom Scrollbar (Optional, for Webkit browsers) */
+::-webkit-scrollbar {
+    width: 10px;
 }
 
-.contact-form button {
-  background-color: var(--accent);
-  color: var(--primary);
-  padding: 15px 30px;
-  border: none;
-  border-radius: 30px;
-  font-weight: 600;
-  font-size: 1.1em;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  align-self: center; /* Center the button */
-  margin-top: 10px; /* Space above button */
+::-webkit-scrollbar-track {
+    background: #1a1a2e;
 }
 
-.contact-form button:hover {
-  background-color: var(--primary);
-  color: var(--text-light);
-  transform: translateY(-3px);
+::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 5px;
 }
 
-/* Footer */
-footer {
-  background-color: var(--primary);
-  color: var(--text-light);
-  text-align: center;
-  padding: 40px 0;
-  margin-top: 60px;
+::-webkit-scrollbar-thumb:hover {
+    background: #4ddaff;
 }
-
-footer p {
-  margin-bottom: 0;
-  font-size: 0.9em;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  #hero h1 {
-    font-size: 2.5em;
-  }
-  #hero p {
-    font-size: 1em;
-  }
-  #about h2, #menu h2, #contact h2 {
-    font-size: 2em;
-  }
-  .section-container {
-    padding: 60px 0;
-  }
-  .menu-grid {
-    grid-template-columns: 1fr; /* Stack menu items on smaller screens */
-  }
-}
-
-@media (max-width: 480px) {
-  .container {
-    padding: 0 15px;
-  }
-  .cta-button, .contact-form button {
-    font-size: 1em;
-    padding: 12px 25px;
-  }
-  .glassmorphic, #about .section-content, #menu .section-content, #contact .section-content {
-    padding: 25px;
-    margin: 15px;
-  }
-}
-    </style>
+</style>
 </head>
+
 <body>
 
-    <!-- Fixed Glass Navbar -->
-    <nav style="position: fixed; top: 0; width: 100%; padding: 1.5rem 5%; z-index: 999; background: rgba(0,0,0,0.2); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center;">
-        <div style="font-family: 'Lato', serif; font-size: 1.5rem; font-weight: bold; color: var(--primary);">
-            Aura Coffee
-        </div>
-        <div>
-            <a href="#hero" style="color: var(--text); text-decoration: none; margin-left: 2rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Home</a>
-        </div>
-    </nav>
 
-    <!-- AI Generated Sections -->
-    <section id="hero" class="section-container">
-    <canvas id="canvas_hero" class="three-canvas" style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:-1;"></canvas>
-    <div class="content-wrapper" style="position:relative; z-index:10; padding:5rem;">
-        <h1>The Aura Unveiled</h1>
-        <p>Aura Coffee: Where minimalist design meets exceptional taste. Experience coffee that transcends the ordinary.</p>
-        <button class="glossy-button">Discover Aura</button>
-    </div>
-</section>
-<section id="origins" class="section-container">
-    <canvas id="canvas_origins" class="three-canvas" style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:-1;"></canvas>
-    <div class="content-wrapper" style="position:relative; z-index:10; padding:5rem;">
-        <h2>Our Sourcing Philosophy</h2>
-        <p>We meticulously select single-origin beans from sustainable farms, prioritizing ethical practices and unparalleled quality. Each bean tells a story of its origin, its terroir, and the hands that nurtured it.</p>
-        <button class="glossy-button">Explore Our Origins</button>
-    </div>
-</section>
-<section id="craft" class="section-container">
-    <canvas id="canvas_craft" class="three-canvas" style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:-1;"></canvas>
-    <div class="content-wrapper" style="position:relative; z-index:10; padding:5rem;">
-        <h2>The Art of the Brew</h2>
-        <p>Our minimalist approach extends to our brewing methods. We believe in letting the inherent qualities of the coffee shine through, employing precise techniques for a pure, unadulterated flavor experience.</p>
-        <button class="glossy-button">Master the Brew</button>
-    </div>
-</section>
-<section id="experience" class="section-container">
-    <canvas id="canvas_experience" class="three-canvas" style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:-1;"></canvas>
-    <div class="content-wrapper" style="position:relative; z-index:10; padding:5rem;">
-        <h2>Your Daily Sanctuary</h2>
-        <p>More than just coffee, Aura is an invitation to pause, reflect, and savor the moment. Discover a space where simplicity fosters connection and mindfulness.</p>
-        <button class="glossy-button">Find Your Sanctuary</button>
+<section id="hero" style="height:100vh;position:relative;">
+    <canvas id="canvas_hero" style="position:absolute;width:100%;height:100%;"></canvas>
+
+    <div style="position:relative;z-index:10;text-align:center;color:white;padding-top:20%;">
+        <h1>Welcome to My Universe</h1>
+        <p>A slowly rotating, intricately detailed nebula with twinkling stars and nebulae. The user can interact to slightly adjust the camera angle.</p>
     </div>
 </section>
 
-    <!-- AI Generated 3D & Animations -->
-    <script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/ScrollTrigger.min.js"></script>
+<section id="portfolio" style="height:100vh;position:relative;">
+    <canvas id="canvas_portfolio" style="position:absolute;width:100%;height:100%;"></canvas>
+
+    <div style="position:relative;z-index:10;text-align:center;color:white;padding-top:20%;">
+        <h1>Galactic Creations</h1>
+        <p>A collection of interactive, floating 3D models representing featured portfolio pieces. Each model can be selected to expand into a detailed view with project information.</p>
+    </div>
+</section>
+
+<section id="about" style="height:100vh;position:relative;">
+    <canvas id="canvas_about" style="position:absolute;width:100%;height:100%;"></canvas>
+
+    <div style="position:relative;z-index:10;text-align:center;color:white;padding-top:20%;">
+        <h1>The Architect</h1>
+        <p>A stylized, abstract representation of the artist's workspace, with holographic blueprints and floating tools. The user can walk around the space.</p>
+    </div>
+</section>
+
+<section id="contact" style="height:100vh;position:relative;">
+    <canvas id="canvas_contact" style="position:absolute;width:100%;height:100%;"></canvas>
+
+    <div style="position:relative;z-index:10;text-align:center;color:white;padding-top:20%;">
+        <h1>Connect with Me</h1>
+        <p>A sleek, minimalist console with interactive buttons and holographic communication interfaces. Clicking a button reveals contact details or opens an email client.</p>
+    </div>
+</section>
+
 
 <script>
-    gsap.registerPlugin(ScrollTrigger);
+javascript
+// Helper function to create a simple scene with a rotating object
+function createRotatingScene(canvasId, objectType = 'cube') {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) {
+        console.error(`Canvas element with ID "${canvasId}" not found.`);
+        return;
+    }
 
-    const scenesConfig = [
-        {
-            id: "hero",
-            desc: "A slowly rotating, hyper-realistic 3D model of a single, perfectly formed coffee bean, subtly illuminated by a soft, diffused light. As the camera orbits, delicate, almost imperceptible wisps of steam rise from its surface, hinting at freshness and warmth. The background is a dark, velvety void, emphasizing the bean's form."
-        },
-        {
-            id: "origins",
-            desc: "A collection of abstract, geometric 'islands' floating in a serene, muted environment. Each island is rendered with textures reminiscent of rich soil, lush greenery, or sun-drenched landscapes. Subtle, glowing lines connect these islands, representing the journey of the beans from farm to cup. The overall effect is one of curated exploration and natural beauty."
-        },
-        {
-            id: "craft",
-            desc: "A dynamic, yet controlled, animation showcasing the process of brewing coffee. Imagine a stylized 3D pour-over setup where water elegantly cascades over a bed of coffee grounds. Particles representing flavor compounds are visually extracted and blend into a rich, dark liquid. The scene is clean, precise, and almost meditative, with subtle light refractions through the liquid."
-        },
-        {
-            id: "experience",
-            desc: "A serene, minimalist 3D environment resembling a tranquil cafe corner. A single, elegantly designed coffee cup rests on a smooth wooden surface. Soft, ambient light filters in, creating a peaceful atmosphere. As the user interacts, subtle ripples appear on the surface of the coffee, or the light gently shifts, inviting introspection."
-        }
-    ];
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+    renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+    renderer.setClearColor(0x000000, 0); // Transparent background
 
-    const scenes = {};
-    const renderers = {};
-    const cameras = {};
-    const allObjects = [];
+    let geometry;
+    if (objectType === 'sphere') {
+        geometry = new THREE.SphereGeometry(1, 32, 32);
+    } else {
+        geometry = new THREE.BoxGeometry(1.5, 1.5, 1.5);
+    }
 
-    // Load environment map (a simple one for demonstration)
-    const textureLoader = new THREE.TextureLoader();
-    const envMap = new THREE.CubeTextureLoader()
-        .setPath('https://threejs.org/examples/textures/cube/SwedishRoyalCastle/')
-        .load(['px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg']);
+    const material = new THREE.MeshBasicMaterial({ color: Math.random() * 0xffffff, wireframe: true });
+    const object = new THREE.Mesh(geometry, material);
+    scene.add(object);
 
+    camera.position.z = 5;
 
-    scenesConfig.forEach(config => {
-        const canvas = document.getElementById(`canvas_${config.id}`);
-        if (!canvas) return;
-
-        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);
-        renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.outputEncoding = THREE.sRGBEncoding;
-        renderers[config.id] = renderer;
-
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.z = 5;
-        cameras[config.id] = camera;
-
-        const scene = new THREE.Scene();
-        scene.environment = envMap; // Apply environment map
-        scenes[config.id] = scene;
-
-        // --- Scene Specific Setup ---
-
-        if (config.id === "hero") {
-            // Coffee Bean
-            const beanGeometry = new THREE.SphereGeometry(1, 64, 64);
-            const beanMaterial = new THREE.MeshStandardMaterial({
-                color: 0x3E2723, // Dark brown
-                roughness: 0.3,
-                metalness: 0.2,
-                envMap: envMap,
-                envMapIntensity: 1
-            });
-            const coffeeBean = new THREE.Mesh(beanGeometry, beanMaterial);
-            coffeeBean.rotation.x = Math.PI / 4;
-            coffeeBean.rotation.y = Math.PI / 4;
-            scenes[config.id].add(coffeeBean);
-            allObjects.push(coffeeBean);
-
-            // Subtle Steam Wisps (using Points)
-            const steamGeometry = new THREE.BufferGeometry();
-            const steamMaterial = new THREE.PointsMaterial({
-                color: 0xFFFFFF,
-                size: 0.05,
-                transparent: true,
-                opacity: 0.6,
-                blending: THREE.AdditiveBlending
-            });
-            const steamParticles = new THREE.Points(steamGeometry, steamMaterial);
-            steamParticles.position.y = 1.2;
-            scenes[config.id].add(steamParticles);
-
-            // Add soft light
-            const ambientLight = new THREE.AmbientLight(0x404040, 1);
-            scenes[config.id].add(ambientLight);
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-            directionalLight.position.set(5, 5, 5);
-            scenes[config.id].add(directionalLight);
-
-            // ScrollTrigger for Hero
-            ScrollTrigger.create({
-                trigger: `#section_${config.id}`,
-                start: "top top",
-                end: "bottom bottom",
-                pin: true,
-                onUpdate: (self) => {
-                    // Orbit camera slightly with scroll
-                    cameras[config.id].position.x = Math.sin(self.progress * Math.PI * 2) * 3;
-                    cameras[config.id].position.z = Math.cos(self.progress * Math.PI * 2) * 3;
-                    cameras[config.id].lookAt(coffeeBean.position);
-
-                    // Animate steam particles
-                    const particleCount = 100;
-                    const positions = [];
-                    for (let i = 0; i < particleCount; i++) {
-                        const x = (Math.random() - 0.5) * 0.5;
-                        const y = Math.random() * 0.5 + 1; // Rise from top of bean
-                        const z = (Math.random() - 0.5) * 0.5;
-                        positions.push(x, y, z);
-                    }
-                    steamGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-                    steamParticles.geometry.attributes.position.needsUpdate = true;
-                }
-            });
-
-        } else if (config.id === "origins") {
-            const islandCount = 5;
-            const islands = [];
-            for (let i = 0; i < islandCount; i++) {
-                const geometry = new THREE.IcosahedronGeometry(Math.random() * 1 + 0.5, Math.floor(Math.random() * 2));
-                const material = new THREE.MeshStandardMaterial({
-                    color: new THREE.Color(0x6F4E37).lerpHSL(new THREE.Color(0x2E8B57), Math.random()), // Soil to Green
-                    roughness: 0.8,
-                    metalness: 0.1,
-                    envMap: envMap,
-                    envMapIntensity: 0.5
-                });
-                const island = new THREE.Mesh(geometry, material);
-                island.position.set(
-                    (Math.random() - 0.5) * 20,
-                    (Math.random() - 0.5) * 10,
-                    (Math.random() - 0.5) * 20
-                );
-                scenes[config.id].add(island);
-                islands.push(island);
-                allObjects.push(island);
-            }
-
-            // Glowing connecting lines
-            const lineMaterial = new THREE.LineBasicMaterial({ color: 0xAFEEEE, linewidth: 2 });
-            for (let i = 0; i < islands.length; i++) {
-                for (let j = i + 1; j < islands.length; j++) {
-                    const points = [];
-                    points.push(islands[i].position);
-                    points.push(islands[j].position);
-                    const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
-                    const line = new THREE.Line(lineGeometry, lineMaterial);
-                    scenes[config.id].add(line);
-                }
-            }
-
-            const ambientLight = new THREE.AmbientLight(0xaaaaaa, 0.8);
-            scenes[config.id].add(ambientLight);
-
-            // ScrollTrigger for Origins
-            ScrollTrigger.create({
-                trigger: `#section_${config.id}`,
-                start: "top center",
-                end: "bottom center",
-                onEnter: () => {
-                    gsap.to(islands.map(island => island.scale), { duration: 1, x: 1.2, y: 1.2, z: 1.2, ease: "power2.out" });
-                },
-                onLeaveBack: () => {
-                    gsap.to(islands.map(island => island.scale), { duration: 1, x: 1, y: 1, z: 1, ease: "power2.out" });
-                }
-            });
-
-        } else if (config.id === "craft") {
-            // Stylized Pour-over setup (simplified)
-            const groundGeometry = new THREE.CylinderGeometry(2, 2, 0.2, 64);
-            const groundMaterial = new THREE.MeshStandardMaterial({ color: 0x8B4513, roughness: 0.7 }); // Wood
-            const ground = new THREE.Mesh(groundGeometry, groundMaterial);
-            ground.position.y = -1;
-            scenes[config.id].add(ground);
-
-            const filterGeometry = new THREE.ConeGeometry(1, 1.5, 32);
-            const filterMaterial = new THREE.MeshStandardMaterial({ color: 0xF5F5DC, roughness: 0.9 }); // Beige
-            const filter = new THREE.Mesh(filterGeometry, filterMaterial);
-            filter.position.y = 0.5;
-            scenes[config.id].add(filter);
-
-            // Coffee grounds (represented by many small spheres)
-            const groundsGeometry = new THREE.SphereGeometry(0.05, 16, 16);
-            const groundsMaterial = new THREE.MeshStandardMaterial({ color: 0x3E2723, roughness: 0.9 });
-            const groundsGroup = new THREE.Group();
-            for (let i = 0; i < 100; i++) {
-                const groundParticle = new THREE.Mesh(groundsGeometry, groundsMaterial);
-                groundParticle.position.set(
-                    (Math.random() - 0.5) * 0.8,
-                    -0.8 + Math.random() * 0.3,
-                    (Math.random() - 0.5) * 0.8
-                );
-                groundsGroup.add(groundParticle);
-            }
-            filter.add(groundsGroup); // Add to filter for positioning
-
-            // Water cascade (simplified)
-            const waterGeometry = new THREE.CylinderGeometry(0.1, 0.1, 0.5, 32);
-            const waterMaterial = new THREE.MeshStandardMaterial({ color: 0xADD8E6, transparent: true, opacity: 0.7, side: THREE.DoubleSide });
-            const water = new THREE.Mesh(waterGeometry, waterMaterial);
-            water.position.y = 1.5;
-            scenes[config.id].add(water);
-
-            // Flavor particles (glowing points)
-            const flavorGeometry = new THREE.BufferGeometry();
-            const flavorMaterial = new THREE.PointsMaterial({
-                color: 0xFFD700, // Gold
-                size: 0.03,
-                transparent: true,
-                opacity: 0.9,
-                blending: THREE.AdditiveBlending
-            });
-            const flavorParticles = new THREE.Points(flavorGeometry, flavorMaterial);
-            flavorParticles.position.y = -1; // Start below the cup
-            scenes[config.id].add(flavorParticles);
-
-            const ambientLight = new THREE.AmbientLight(0x404040, 1);
-            scenes[config.id].add(ambientLight);
-            const pointLight = new THREE.PointLight(0xffffff, 1, 100);
-            pointLight.position.set(0, 2, 2);
-            scenes[config.id].add(pointLight);
-
-            // ScrollTrigger for Craft
-            ScrollTrigger.create({
-                trigger: `#section_${config.id}`,
-                start: "top center",
-                end: "bottom center",
-                onEnter: () => {
-                    // Animate water pour
-                    gsap.to(water.scale, { duration: 1.5, y: 2, ease: "power2.out" });
-                    gsap.to(water.position, { duration: 1.5, y: -0.5, ease: "power2.out", onComplete: () => {
-                        // Animate flavor extraction
-                        const particleCount = 200;
-                        const positions = [];
-                        for (let i = 0; i < particleCount; i++) {
-                            const x = (Math.random() - 0.5) * 0.5;
-                            const y = -0.8 + Math.random() * 0.3; // From grounds area
-                            const z = (Math.random() - 0.5) * 0.5;
-                            positions.push(x, y, z);
-                        }
-                        flavorGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-                        flavorParticles.geometry.attributes.position.needsUpdate = true;
-                        gsap.to(flavorParticles.position, { duration: 2, y: -0.5, ease: "power2.inOut" });
-                    }});
-                },
-                onLeaveBack: () => {
-                    gsap.to(water.scale, { duration: 1, y: 0, ease: "power2.in" });
-                    gsap.to(water.position, { duration: 1, y: 1.5, ease: "power2.in" });
-                    gsap.to(flavorParticles.position, { duration: 1, y: -1, ease: "power2.in" });
-                }
-            });
-
-        } else if (config.id === "experience") {
-            // Cafe corner (simplified)
-            const tableGeometry = new THREE.CylinderGeometry(3, 3, 0.3, 64);
-            const tableMaterial = new THREE.MeshStandardMaterial({ color: 0x5C4033, roughness: 0.8 }); // Dark wood
-            const table = new THREE.Mesh(tableGeometry, tableMaterial);
-            table.position.y = -1.5;
-            scenes[config.id].add(table);
-
-            const cupGeometry = new THREE.CylinderGeometry(0.5, 0.5, 0.8, 32);
-            const cupMaterial = new THREE.MeshStandardMaterial({ color: 0xFFFFFF, roughness: 0.2, metalness: 0.1 }); // White ceramic
-            const cup = new THREE.Mesh(cupGeometry, cupMaterial);
-            cup.position.y = -0.9;
-            scenes[config.id].add(cup);
-
-            // Coffee inside cup
-            const coffeeGeometry = new THREE.CylinderGeometry(0.45, 0.45, 0.3, 32);
-            const coffeeMaterial = new THREE.MeshStandardMaterial({ color: 0x3E2723, roughness: 0.5 });
-            const coffee = new THREE.Mesh(coffeeGeometry, coffeeMaterial);
-            coffee.position.y = -1.15;
-            scenes[config.id].add(coffee);
-
-            // Soft ambient light
-            const ambientLight = new THREE.AmbientLight(0xaaaaaa, 1);
-            scenes[config.id].add(ambientLight);
-            const pointLight = new THREE.PointLight(0xffffff, 0.8, 50);
-            pointLight.position.set(-2, 2, 3);
-            scenes[config.id].add(pointLight);
-
-            // ScrollTrigger for Experience
-            ScrollTrigger.create({
-                trigger: `#section_${config.id}`,
-                start: "top center",
-                end: "bottom center",
-                onEnter: () => {
-                    // Subtle light shift
-                    gsap.to(pointLight.position, { duration: 3, x: 2, y: 1, z: -2, ease: "power1.inOut" });
-                },
-                onLeaveBack: () => {
-                    gsap.to(pointLight.position, { duration: 1, x: -2, y: 2, z: 3, ease: "power1.inOut" });
-                },
-                onUpdate: (self) => {
-                     // Ripples on coffee surface (simplified)
-                     const time = self.progress * Math.PI * 4;
-                     for(let i = 0; i < coffee.geometry.vertices.length; i++) {
-                         const vertex = coffee.geometry.vertices[i];
-                         vertex.y = Math.sin(vertex.x * 2 + time) * 0.02 + Math.cos(vertex.z * 2 + time) * 0.02;
-                     }
-                     coffee.geometry.verticesNeedUpdate = true;
-                     coffee.geometry.normalsNeedUpdate = true;
-                }
-            });
-        }
-    });
-
-    // Global Render Loop
     function animate() {
         requestAnimationFrame(animate);
 
-        // Rotate all objects
-        allObjects.forEach(obj => {
-            if (obj.type === "Mesh") { // Only rotate meshes for now
-                obj.rotation.y += 0.001;
-                obj.rotation.x += 0.0005;
-            }
-        });
+        object.rotation.x += 0.01;
+        object.rotation.y += 0.01;
 
-        // Render each scene
-        for (const id in scenes) {
-            if (renderers[id] && cameras[id] && scenes[id]) {
-                renderers[id].render(scenes[id], cameras[id]);
-            }
-        }
+        renderer.render(scene, camera);
     }
 
-    // Handle Window Resize
-    window.addEventListener('resize', () => {
-        for (const id in scenes) {
-            if (renderers[id] && cameras[id]) {
-                const canvas = renderers[id].domElement;
-                const width = canvas.clientWidth;
-                const height = canvas.clientHeight;
-                const needsResize = canvas.width !== width * window.devicePixelRatio || canvas.height !== height * window.devicePixelRatio;
-                if (needsResize) {
-                    renderers[id].setSize(width, height, false);
-                }
-                cameras[id].aspect = width / height;
-                cameras[id].updateProjectionMatrix();
-            }
-        }
-    });
+    // Handle window resizing
+    function onWindowResize() {
+        const width = canvas.clientWidth;
+        const height = canvas.clientHeight;
+        renderer.setSize(width, height);
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+    }
+    window.addEventListener('resize', onWindowResize, false);
 
-    // Initial animation call
     animate();
+}
 
-    // Fade in content on scroll
-    scenesConfig.forEach(config => {
-        gsap.from(`#content_${config.id}`, {
-            opacity: 0,
-            y: 50,
-            duration: 1,
-            scrollTrigger: {
-                trigger: `#section_${config.id}`,
-                start: "top center+=100", // Start fading in when section is 100px from top of viewport center
-                end: "bottom center",
-                toggleActions: "play none none none"
-            }
-        });
-    });
-
+// Initialize scenes for each section
+document.addEventListener('DOMContentLoaded', () => {
+    createRotatingScene('canvas_hero', 'sphere');
+    createRotatingScene('canvas_portfolio', 'cube');
+    createRotatingScene('canvas_about', 'sphere');
+    createRotatingScene('canvas_contact', 'cube');
+});
 </script>
 
-<!-- Example HTML structure (you would need to create these divs) -->
-<!--
-<div id="section_hero" style="height: 100vh; position: relative;">
-    <canvas id="canvas_hero" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></canvas>
-    <div id="content_hero" style="position: relative; z-index: 1; color: white; text-align: center; padding-top: 50vh;">
-        <h1>Aura Coffee</h1>
-        <p>Experience the perfect bean.</p>
-    </div>
-</div>
-
-<div id="section_origins" style="height: 100vh; position: relative;">
-    <canvas id="canvas_origins" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></canvas>
-    <div id="content_origins" style="position: relative; z-index: 1; color: white; text-align: center; padding-top: 50vh;">
-        <h2>Our Origins</h2>
-        <p>From remote farms to your cup.</p>
-    </div>
-</div>
-
-<div id="section_craft" style="height: 100vh; position: relative;">
-    <canvas id="canvas_craft" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></canvas>
-    <div id="content_craft" style="position: relative; z-index: 1; color: white; text-align: center; padding-top: 50vh;">
-        <h2>The Craft</h2>
-        <p>Masterfully brewed.</p>
-    </div>
-</div>
-
-<div id="section_experience" style="height: 100vh; position: relative;">
-    <canvas id="canvas_experience" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></canvas>
-    <div id="content_experience" style="position: relative; z-index: 1; color: white; text-align: center; padding-top: 50vh;">
-        <h2>Your Experience</h2>
-        <p>A moment of tranquility.</p>
-    </div>
-</div>
--->
-    </script>
 </body>
 </html>
