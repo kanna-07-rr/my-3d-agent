@@ -1,55 +1,42 @@
-name: Universal 3D Premium Site Builder
+name: Universal 3D Premium Site Agent
 
 on:
   workflow_dispatch:
     inputs:
       prompt:
-        description: "Describe ANY premium 3D website you want"
+        description: "Describe the 3D animated website you want to build"
         required: true
-        default: "Build a futuristic AI SaaS landing page"
+        default: "Build a premium minimalist coffee brand website with floating 3D coffee beans"
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 15
     permissions:
       contents: write
 
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+  steps:  
+    - name: Checkout  
+      uses: actions/checkout@v4  
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
+    - name: Setup Python  
+      uses: actions/setup-python@v5  
+      with:  
+        python-version: "3.11"  
 
-      - name: Install Dependencies
-        run: |
-          pip install requests
+    - name: Install dependencies  
+      run: pip install requests  
 
-      - name: Run Universal 3D Site Agent
-        env:
-          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          SITE_PROMPT: ${{ github.event.inputs.prompt }}
-        run: python agent.py
+    - name: Run 3D Site Agent  
+      env:  
+        OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}  
+        SITE_PROMPT: ${{ github.event.inputs.prompt }}  
+      run: python agent.py  
 
-      - name: Commit & Push Generated Website
-  shell: bash
-  run: |
-    set -e
-
-    git config --global user.name "3DSiteAgent"
-    git config --global user.email "agent@3dsite.com"
-
-    git add index.html
-
-    if git diff --cached --quiet; then
-      echo "No changes detected."
-      exit 0
-    fi
-
-    COMMIT_MSG="Generated premium 3D website"
-    git commit -m "$COMMIT_MSG"
-
-    git push origin HEAD
+    - name: Push site to GitHub  
+      run: |  
+        git config user.name "3D-AgentBot"  
+        git config user.email "agent@bot.com"  
+        git add index.html  
+        git diff --staged --quiet || git commit -m "Auto-Built: ${{ github.event.inputs.prompt }}"  
+        git push
