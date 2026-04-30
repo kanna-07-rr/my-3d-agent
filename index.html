@@ -2,24 +2,22 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Premium 3D Space Portfolio</title>
+<title>RR Cars 3D Showroom</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <style>
 body {
     margin:0;
-    background:#1a1a2e;
+    background:#050505;
     color:white;
     font-family:Arial;
 }
 
 css
-/* Premium Dark Theme */
-
-/* General Body Styles */
+/* Global Styles */
 body {
-    background-color: #1a1a2e;
+    background-color: #050505;
     color: #ffffff;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
@@ -27,46 +25,56 @@ body {
     padding: 0;
 }
 
-/* Accent Color */
-:root {
-    --bg-color: #1a1a2e;
-    --accent-color: #00f9ff;
-    --text-color: #ffffff;
-}
-
 /* Headings */
 h1, h2, h3, h4, h5, h6 {
-    color: var(--accent-color);
+    color: #ffffff;
     margin-bottom: 0.5em;
 }
 
-h1 { font-size: 2.5em; }
-h2 { font-size: 2em; }
-h3 { font-size: 1.75em; }
-h4 { font-size: 1.5em; }
-h5 { font-size: 1.25em; }
-h6 { font-size: 1em; }
+h1 {
+    font-size: 2.5em;
+    color: #ff00ff; /* Accent color for main headings */
+}
+
+h2 {
+    font-size: 2em;
+    color: #00ffff; /* Secondary accent color for sub-headings */
+}
+
+h3 {
+    font-size: 1.75em;
+}
 
 /* Paragraphs and Text */
 p {
     margin-bottom: 1em;
 }
 
+strong, b {
+    font-weight: bold;
+    color: #ffffff;
+}
+
+em, i {
+    font-style: italic;
+}
+
+/* Links */
 a {
-    color: var(--accent-color);
+    color: #ff00ff;
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 a:hover, a:focus {
-    color: #4ddaff; /* Slightly lighter accent on hover */
+    color: #00ffff;
     text-decoration: underline;
 }
 
 /* Buttons */
 .btn {
     display: inline-block;
-    padding: 10px 20px;
+    padding: 12px 25px;
     font-size: 1em;
     font-weight: bold;
     text-align: center;
@@ -78,26 +86,25 @@ a:hover, a:focus {
 }
 
 .btn-primary {
-    background-color: var(--accent-color);
-    color: var(--bg-color); /* Text color on accent background */
+    background-color: #ff00ff;
+    color: #050505;
 }
 
 .btn-primary:hover, .btn-primary:focus {
-    background-color: #4ddaff; /* Lighter accent */
-    color: var(--bg-color);
-    box-shadow: 0 0 15px rgba(0, 249, 255, 0.5); /* Glow effect */
+    background-color: #00ffff;
+    color: #050505;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
 }
 
 .btn-secondary {
-    background-color: transparent;
-    color: var(--accent-color);
-    border: 1px solid var(--accent-color);
+    background-color: #00ffff;
+    color: #050505;
 }
 
 .btn-secondary:hover, .btn-secondary:focus {
-    background-color: rgba(0, 249, 255, 0.1);
-    color: var(--accent-color);
-    border-color: #4ddaff;
+    background-color: #ff00ff;
+    color: #050505;
+    box-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
 }
 
 /* Forms */
@@ -108,11 +115,11 @@ input[type="search"],
 textarea,
 select {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     margin-bottom: 15px;
-    background-color: #2a2a3e; /* Slightly lighter dark for inputs */
-    color: var(--text-color);
-    border: 1px solid #444;
+    background-color: #1a1a1a;
+    color: #ffffff;
+    border: 1px solid #333333;
     border-radius: 5px;
     box-sizing: border-box; /* Include padding and border in the element's total width and height */
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
@@ -124,43 +131,44 @@ input[type="password"]:focus,
 input[type="search"]:focus,
 textarea:focus,
 select:focus {
-    border-color: var(--accent-color);
+    border-color: #ff00ff;
     outline: none;
-    box-shadow: 0 0 8px rgba(0, 249, 255, 0.3);
+    box-shadow: 0 0 8px rgba(255, 0, 255, 0.3);
 }
 
 label {
     display: block;
     margin-bottom: 5px;
+    color: #ffffff;
     font-weight: bold;
 }
 
 /* Cards and Containers */
 .card {
-    background-color: #2a2a3e;
+    background-color: #1a1a1a;
     border-radius: 8px;
     padding: 20px;
     margin-bottom: 20px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 0 20px;
 }
 
 /* Navigation */
 nav {
-    background-color: #2a2a3e;
+    background-color: #1a1a1a;
     padding: 15px 0;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 nav ul {
@@ -176,14 +184,23 @@ nav ul li {
 }
 
 nav ul li a {
-    color: var(--text-color);
+    color: #ffffff;
     font-weight: bold;
-    font-size: 1.1em;
     transition: color 0.3s ease;
 }
 
 nav ul li a:hover, nav ul li a:focus {
-    color: var(--accent-color);
+    color: #ff00ff;
+}
+
+/* Lists */
+ul, ol {
+    margin-bottom: 1em;
+    padding-left: 20px;
+}
+
+li {
+    margin-bottom: 0.5em;
 }
 
 /* Tables */
@@ -194,111 +211,88 @@ table {
 }
 
 th, td {
-    padding: 12px 15px;
+    padding: 12px;
     text-align: left;
-    border-bottom: 1px solid #444;
+    border-bottom: 1px solid #333333;
 }
 
 th {
-    background-color: #2a2a3e;
-    color: var(--accent-color);
+    background-color: #1a1a1a;
+    color: #ffffff;
     font-weight: bold;
 }
 
 tr:nth-child(even) {
-    background-color: #202030; /* Subtle striping */
+    background-color: #0d0d0d;
 }
 
 tr:hover {
-    background-color: #3a3a4e;
+    background-color: #262626;
 }
 
-/* Alerts and Notifications */
-.alert {
-    padding: 15px;
-    margin-bottom: 20px;
-    border-radius: 5px;
+/* Utility Classes */
+.text-accent {
+    color: #ff00ff !important;
+}
+
+.text-secondary-accent {
+    color: #00ffff !important;
+}
+
+.bg-accent {
+    background-color: #ff00ff !important;
+}
+
+.bg-secondary-accent {
+    background-color: #00ffff !important;
+}
+
+.shadow-dark {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Specific Element Styling (Examples) */
+.logo {
+    font-size: 1.8em;
     font-weight: bold;
+    color: #ff00ff;
 }
 
-.alert-info {
-    background-color: rgba(0, 249, 255, 0.1);
-    color: var(--accent-color);
-    border: 1px solid var(--accent-color);
+.footer {
+    background-color: #1a1a1a;
+    color: #aaaaaa;
+    text-align: center;
+    padding: 30px 0;
+    margin-top: 40px;
+    border-top: 1px solid #333333;
 }
 
-.alert-success {
-    background-color: rgba(40, 167, 69, 0.1);
-    color: #28a745;
-    border: 1px solid #28a745;
+.footer a {
+    color: #ffffff;
 }
 
-.alert-warning {
-    background-color: rgba(255, 193, 7, 0.1);
-    color: #ffc107;
-    border: 1px solid #ffc107;
+.footer a:hover, .footer a:focus {
+    color: #00ffff;
 }
 
-.alert-danger {
-    background-color: rgba(220, 53, 69, 0.1);
-    color: #dc3545;
-    border: 1px solid #dc3545;
-}
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2em;
+    }
 
-/* Modals */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
+    h2 {
+        font-size: 1.75em;
+    }
 
-.modal-content {
-    background-color: #2a2a3e;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
-    position: relative;
-    max-width: 500px;
-    width: 90%;
-}
+    nav ul li {
+        display: block;
+        margin: 10px 0;
+    }
 
-.modal-close {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    font-size: 1.5em;
-    cursor: pointer;
-    color: #ccc;
-    transition: color 0.3s ease;
-}
-
-.modal-close:hover {
-    color: var(--accent-color);
-}
-
-/* Custom Scrollbar (Optional, for Webkit browsers) */
-::-webkit-scrollbar {
-    width: 10px;
-}
-
-::-webkit-scrollbar-track {
-    background: #1a1a2e;
-}
-
-::-webkit-scrollbar-thumb {
-    background: var(--accent-color);
-    border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #4ddaff;
+    .card {
+        padding: 15px;
+    }
 }
 </style>
 </head>
@@ -310,26 +304,35 @@ tr:hover {
     <canvas id="canvas_hero" style="position:absolute;width:100%;height:100%;"></canvas>
 
     <div style="position:relative;z-index:10;text-align:center;color:white;padding-top:20%;">
-        <h1>Welcome to My Universe</h1>
-        <p>A slowly rotating, intricately detailed nebula with twinkling stars and nebulae. The user can interact to slightly adjust the camera angle.</p>
+        <h1>Welcome to RR Cars</h1>
+        <p>A sleek, rotating 3D model of the flagship RR Phantom, set against a dark, subtly lit showroom background with dynamic neon light accents.</p>
     </div>
 </section>
 
-<section id="portfolio" style="height:100vh;position:relative;">
-    <canvas id="canvas_portfolio" style="position:absolute;width:100%;height:100%;"></canvas>
+<section id="models" style="height:100vh;position:relative;">
+    <canvas id="canvas_models" style="position:absolute;width:100%;height:100%;"></canvas>
 
     <div style="position:relative;z-index:10;text-align:center;color:white;padding-top:20%;">
-        <h1>Galactic Creations</h1>
-        <p>A collection of interactive, floating 3D models representing featured portfolio pieces. Each model can be selected to expand into a detailed view with project information.</p>
+        <h1>Our Fleet</h1>
+        <p>Interactive 3D car models of various RR models (e.g., Ghost, Cullinan, Spectre) arranged in a virtual showroom. Users can click to rotate, zoom, and view different angles.</p>
     </div>
 </section>
 
-<section id="about" style="height:100vh;position:relative;">
-    <canvas id="canvas_about" style="position:absolute;width:100%;height:100%;"></canvas>
+<section id="features" style="height:100vh;position:relative;">
+    <canvas id="canvas_features" style="position:absolute;width:100%;height:100%;"></canvas>
 
     <div style="position:relative;z-index:10;text-align:center;color:white;padding-top:20%;">
-        <h1>The Architect</h1>
-        <p>A stylized, abstract representation of the artist's workspace, with holographic blueprints and floating tools. The user can walk around the space.</p>
+        <h1>Craftsmanship & Innovation</h1>
+        <p>Animated 3D close-ups of key features: a glowing engine component, an intricately detailed interior segment, or a dynamic suspension system.</p>
+    </div>
+</section>
+
+<section id="showroom_experience" style="height:100vh;position:relative;">
+    <canvas id="canvas_showroom_experience" style="position:absolute;width:100%;height:100%;"></canvas>
+
+    <div style="position:relative;z-index:10;text-align:center;color:white;padding-top:20%;">
+        <h1>Virtual Showroom</h1>
+        <p>A navigable 3D environment resembling a high-end car showroom. Users can move through the space and approach cars.</p>
     </div>
 </section>
 
@@ -337,69 +340,146 @@ tr:hover {
     <canvas id="canvas_contact" style="position:absolute;width:100%;height:100%;"></canvas>
 
     <div style="position:relative;z-index:10;text-align:center;color:white;padding-top:20%;">
-        <h1>Connect with Me</h1>
-        <p>A sleek, minimalist console with interactive buttons and holographic communication interfaces. Clicking a button reveals contact details or opens an email client.</p>
+        <h1>Connect with Us</h1>
+        <p>A minimalist 3D representation of a stylized RR logo or a sleek contact form interface with subtle glowing elements.</p>
     </div>
 </section>
 
 
 <script>
 javascript
-// Helper function to create a simple scene with a rotating object
-function createRotatingScene(canvasId, objectType = 'cube') {
+import * as THREE from 'three';
+
+// --- Scene Setup ---
+function createScene(canvasId) {
     const canvas = document.getElementById(canvasId);
     if (!canvas) {
         console.error(`Canvas element with ID "${canvasId}" not found.`);
-        return;
+        return null;
     }
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+
     renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-    renderer.setClearColor(0x000000, 0); // Transparent background
-
-    let geometry;
-    if (objectType === 'sphere') {
-        geometry = new THREE.SphereGeometry(1, 32, 32);
-    } else {
-        geometry = new THREE.BoxGeometry(1.5, 1.5, 1.5);
-    }
-
-    const material = new THREE.MeshBasicMaterial({ color: Math.random() * 0xffffff, wireframe: true });
-    const object = new THREE.Mesh(geometry, material);
-    scene.add(object);
-
     camera.position.z = 5;
 
-    function animate() {
-        requestAnimationFrame(animate);
-
-        object.rotation.x += 0.01;
-        object.rotation.y += 0.01;
-
-        renderer.render(scene, camera);
-    }
-
-    // Handle window resizing
-    function onWindowResize() {
-        const width = canvas.clientWidth;
-        const height = canvas.clientHeight;
-        renderer.setSize(width, height);
-        camera.aspect = width / height;
-        camera.updateProjectionMatrix();
-    }
-    window.addEventListener('resize', onWindowResize, false);
-
-    animate();
+    return { scene, camera, renderer, canvas };
 }
 
-// Initialize scenes for each section
+// --- Rotating Cube ---
+function createRotatingCube(scene) {
+    const geometry = new THREE.BoxGeometry(1, 1, 1);
+    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    const cube = new THREE.Mesh(geometry, material);
+    scene.add(cube);
+
+    function animate() {
+        cube.rotation.x += 0.01;
+        cube.rotation.y += 0.01;
+    }
+
+    return { mesh: cube, animate };
+}
+
+// --- Rotating Sphere ---
+function createRotatingSphere(scene) {
+    const geometry = new THREE.SphereGeometry(0.5, 32, 32);
+    const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+    const sphere = new THREE.Mesh(geometry, material);
+    scene.add(sphere);
+
+    function animate() {
+        sphere.rotation.x += 0.01;
+        sphere.rotation.y += 0.01;
+    }
+
+    return { mesh: sphere, animate };
+}
+
+// --- Scene Management ---
+const scenes = {};
+let animationFrameId;
+
+function renderLoop() {
+    for (const section in scenes) {
+        if (scenes[section].animate) {
+            scenes[section].animate();
+        }
+        scenes[section].renderer.render(scenes[section].scene, scenes[section].camera);
+    }
+    animationFrameId = requestAnimationFrame(renderLoop);
+}
+
+function initScenes() {
+    // Hero Section
+    const heroSceneData = createScene('hero_canvas');
+    if (heroSceneData) {
+        heroSceneData.mesh = createRotatingCube(heroSceneData.scene).mesh;
+        scenes['hero'] = { ...heroSceneData, animate: () => { heroSceneData.mesh.rotation.x += 0.01; heroSceneData.mesh.rotation.y += 0.01; } };
+    }
+
+    // Models Section
+    const modelsSceneData = createScene('models_canvas');
+    if (modelsSceneData) {
+        modelsSceneData.mesh = createRotatingSphere(modelsSceneData.scene).mesh;
+        scenes['models'] = { ...modelsSceneData, animate: () => { modelsSceneData.mesh.rotation.x -= 0.01; modelsSceneData.mesh.rotation.y -= 0.01; } };
+    }
+
+    // Features Section
+    const featuresSceneData = createScene('features_canvas');
+    if (featuresSceneData) {
+        featuresSceneData.mesh = createRotatingCube(featuresSceneData.scene).mesh;
+        scenes['features'] = { ...featuresSceneData, animate: () => { featuresSceneData.mesh.rotation.x += 0.01; featuresSceneData.mesh.rotation.y += 0.01; } };
+    }
+
+    // Showroom Experience Section
+    const showroomSceneData = createScene('showroom_experience_canvas');
+    if (showroomSceneData) {
+        showroomSceneData.mesh = createRotatingSphere(showroomSceneData.scene).mesh;
+        scenes['showroom_experience'] = { ...showroomSceneData, animate: () => { showroomSceneData.mesh.rotation.x -= 0.01; showroomSceneData.mesh.rotation.y -= 0.01; } };
+    }
+
+    // Contact Section
+    const contactSceneData = createScene('contact_canvas');
+    if (contactSceneData) {
+        contactSceneData.mesh = createRotatingCube(contactSceneData.scene).mesh;
+        scenes['contact'] = { ...contactSceneData, animate: () => { contactSceneData.mesh.rotation.x += 0.01; contactSceneData.mesh.rotation.y += 0.01; } };
+    }
+
+    renderLoop();
+}
+
+// --- Resize Handling ---
+function onWindowResize() {
+    for (const section in scenes) {
+        const { canvas, camera, renderer } = scenes[section];
+        if (canvas) {
+            camera.aspect = canvas.clientWidth / canvas.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+        }
+    }
+}
+
+window.addEventListener('resize', onWindowResize);
+
+// --- Initialization ---
 document.addEventListener('DOMContentLoaded', () => {
-    createRotatingScene('canvas_hero', 'sphere');
-    createRotatingScene('canvas_portfolio', 'cube');
-    createRotatingScene('canvas_about', 'sphere');
-    createRotatingScene('canvas_contact', 'cube');
+    initScenes();
+});
+
+// --- Cleanup (Optional, for single page applications or hot module replacement) ---
+window.addEventListener('beforeunload', () => {
+    if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+    }
+    for (const section in scenes) {
+        if (scenes[section].renderer) {
+            scenes[section].renderer.dispose();
+        }
+    }
 });
 </script>
 
