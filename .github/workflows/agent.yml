@@ -37,17 +37,19 @@ jobs:
       - name: Commit & Push Generated Website
   shell: bash
   run: |
+    set -e
+
     git config --global user.name "3DSiteAgent"
     git config --global user.email "agent@3dsite.com"
 
-    git add .
-
-    PROMPT="${{ github.event.inputs.prompt }}"
-    SAFE_PROMPT=$(echo "$PROMPT" | tr '\n\r' ' ' | sed 's/[^a-zA-Z0-9 ]//g' | cut -c1-50)
+    git add index.html
 
     if git diff --cached --quiet; then
-      echo "No changes to commit"
-    else
-      git commit -m "Generated: $SAFE_PROMPT"
-      git push
+      echo "No changes detected."
+      exit 0
     fi
+
+    COMMIT_MSG="Generated premium 3D website"
+    git commit -m "$COMMIT_MSG"
+
+    git push origin HEAD
