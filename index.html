@@ -3,768 +3,267 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RR Cars</title>
+    <title>3D Solar System</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display+Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;600&display=swap');
+--style --primary --secondary
+font-family: 'Playfair Display', sans-serif;
+font-size: 2rem;
+font-weight: 600;
+color: #fff;
 
 :root {
-  --bg: #0a0a0a;
+  --bg-color: #0a0a0a;
   --primary: #FFD700;
   --secondary: #ff6b35;
-  --glass: rgba(255, 255, 255, 0.1);
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+  --text-color: #fff;
+  --gloss: rgba(0,0,0,0.05);
 }
 
 body {
+  margin: 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
   font-family: 'Inter', sans-serif;
-  background: var(--bg);
-  color: #fff;
-  overflow-x: hidden;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Playfair Display', serif;
-}
-
-glass-section {
-  background: var(--glass);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 4rem 2rem;
-  margin: 2rem 0;
-}
-
-button {
-  background: var(--primary);
-  color: var(--bg);
-  border: none;
-  padding: 1rem 2rem;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.3s;
-  box-shadow: 0 4px 12px var(--glass);
-  position: relative;
-}
-
-button:hover {
-  background: var(--secondary);
-  transform: scale(1.05);
-}
-
-button:active {
-  transform: scale(0.95);
-}
-
-button::before {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  background: linear-gradient(45deg, var(--primary), var(--secondary));
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-button:hover::before {
-  opacity: 0.5;
+  line-height: 1.6;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .hero {
-  height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  color: var(--bg);
-  font-size: 2.5rem;
-  animation: fadeIn 2s ease-in-out;
+  height: 100vh;
+  background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.05)), url('https://cdnjs.cloudflare.com/ajax/libs/playfair-design/0.9.0/Playfair-Regular.current.css');
+  background-size: cover;
+  background-position: center;
+  animation: fadeIn 4s ease-in;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-.showroom, .about, .features, .contact {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  padding: 3rem;
+.hero h1 {
+  font-bold;
+  margin-bottom: 2rem;
+  color: var(--secondary);
+  animation: fadeIn 2s ease-out;
 }
 
-.showroom img {
-  width: 100%;
-  height: auto;
-  border-radius: 12px;
-  box-shadow: 0 8px 16px var(--glass);
+.hero p {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-color);
+  animation: float 2s ease;
 }
 
-.features i {
-  font-size: 2rem;
-  color: var(--primary);
-  margin-bottom: 1rem;
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
-.contact form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.contact input, .contact textarea {
-  padding: 1rem;
-  border: 1px solid var(--secondary);
+.btn {
+  padding: 1rem 2rem;
+  background-color: var(--primary);
+  color: #fff;
+  border: none;
   border-radius: 8px;
-  background: var(--bg);
+  font-family: 'Playfair Display', sans-serif;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  outline: none;
+  outline-offset: 2px;
+}
+
+.btn:hover {
+  background-color: var(--secondary);
   color: #fff;
 }
 
-.scrollbar {
-  scrollbar-width: thin;
-  scrollbar-color: var(--secondary) var(--bg);
+.sections {
+  padding: 4rem 2rem;
+  background-color: rgba(0,0,0,0.1);
+  color: var(--primary);
 }
 
-.scrollbar::-webkit-scrollbar {
-  width: 8px;
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+  .hero p {
+    font-size: 1.2rem;
+  }
+  .btn {
+    padding: 0.8rem 1.5rem;
+  }
 }
 
-.scrollbar::-webkit-scrollbar-track {
-  background: var(--bg);
+@media (max-width: 480px) {
+  .hero {
+    height: auto;
+    padding: 2rem;
+  }
+  .sections {
+    padding: 1rem;
+  }
 }
 
-.scrollbar::-webkit-scrollbar-thumb {
+button {
+  padding: 0.75rem 1.5rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+/* Glassmorphism effects */
+.sections {
+  background: rgba(0,0,0,0.1);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* Animations */
+.hero {
+  transform: translateZ(0);
+}
+
+/* Responsive scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-thumb {
   background: var(--secondary);
   border-radius: 4px;
 }
 
-.cursor-glow {
-  cursor: pointer;
-  transition: all 0.3s;
+/* Cursor glow */
+a {
+  text-decoration: none;
+  color: var(--text-color);
+  transition: color 0.3s;
 }
 
-.cursor-glow:hover {
-  box-shadow: 0 0 20px var(--primary);
-  transform: scale(1.05);
+a:hover {
+  color: var(--primary);
 }
     </style>
 </head>
 <body>
-<section id="hero" class="relative h-screen overflow-hidden bg-[#0a0a0a]">
-  <!-- Background Grid Pattern -->
-  <div class="absolute inset-0 opacity-10">
-    <div class="h-full w-full" style="background-image: radial-gradient(#FFD700 1px, transparent 1px); background-size: 50px 50px;"></div>
-  </div>
-  
-  <!-- 3D Canvas Container -->
-  <div id="canvas-container" class="absolute inset-0 z-10"></div>
-  
-  <!-- Content Container -->
-  <div class="relative z-20 h-full flex flex-col justify-center items-center text-center px-4">
-    <div class="max-w-4xl mx-auto">
-      <!-- Title with Neon Glow -->
-      <h1 class="text-5xl md:text-7xl font-bold mb-6 text-white">
-        <span class="block" id="brand-name">RR</span>
-        <span class="block text-[#FFD700] mt-2" id="car-model">PHANTOM</span>
-      </h1>
-      
-      <!-- Tagline -->
-      <p class="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl mx-auto">
-        Experience the pinnacle of automotive luxury
-      </p>
-      
-      <!-- Features -->
-      <div class="flex flex-wrap justify-center gap-8 mb-12">
-        <div class="text-center">
-          <div class="text-3xl font-bold text-[#FFD700] mb-2" data-counter="0">0</div>
-          <div class="text-gray-400">HP</div>
-        </div>
-        <div class="text-center">
-          <div class="text-3xl font-bold text-[#FFD700] mb-2" data-counter="0">0</div>
-          <div class="text-gray-400">MPH</div>
-        </div>
-        <div class="text-center">
-          <div class="text-3xl font-bold text-[#FFD700] mb-2" data-counter="0">0</div>
-          <div class="text-gray-400">SPEED</div>
-        </div>
-      </div>
-      
-      <!-- CTA Buttons -->
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <button class="px-8 py-4 bg-[#FFD700] text-black font-bold rounded-full hover:bg-yellow-300 transition-all duration-300 transform hover:scale-105 shadow-lg shadow-[#FFD700]/30">
-          Configure Your RR
-        </button>
-        <button class="px-8 py-4 border border-[#FFD700] text-[#FFD700] font-bold rounded-full hover:bg-[#FFD700] hover:text-black transition-all duration-300 transform hover:scale-105">
-          View Gallery
-        </button>
-      </div>
-    </div>
-  </div>
-  
-  <!-- Scroll Indicator -->
-  <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30">
-    <div class="w-6 h-10 border-2 border-[#FFD700] rounded-full flex justify-center p-1">
-      <div class="w-1 h-3 bg-[#FFD700] rounded-full animate-bounce"></div>
-    </div>
-  </div>
-  
-  <!-- Decorative Neon Lines -->
-  <div class="absolute inset-0 z-5 pointer-events-none">
-    <div class="absolute top-0 left-1/4 w-1 h-full bg-[#FFD700] opacity-20 transform -skew-y-12"></div>
-    <div class="absolute top-0 right-1/4 w-1 h-full bg-[#FFD700] opacity-20 transform skew-y-12"></div>
-  </div>
-</section>
-
-<script>
-  // Three.js Scene Setup
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setPixelRatio(window.devicePixelRatio);
-  document.getElementById('canvas-container').appendChild(renderer.domElement);
-
-  // Lighting
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-  scene.add(ambientLight);
-
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-  directionalLight.position.set(5, 5, 5);
-  scene.add(directionalLight);
-
-  const pointLight1 = new THREE.PointLight(0xFFD700, 1, 100);
-  pointLight1.position.set(5, 5, 5);
-  scene.add(pointLight1);
-
-  const pointLight2 = new THREE.PointLight(0xFFD700, 1, 100);
-  pointLight2.position.set(-5, -5, -5);
-  scene.add(pointLight2);
-
-  // Create Car Model (Simplified)
-  const carGroup = new THREE.Group();
-
-  // Car Body
-  const bodyGeometry = new THREE.BoxGeometry(4, 1.5, 2);
-  const bodyMaterial = new THREE.MeshPhongMaterial({ 
-    color: 0x222222,
-    metalness: 0.9,
-    roughness: 0.1,
-    emissive: 0x111111
-  });
-  const carBody = new THREE.Mesh(bodyGeometry, bodyMaterial);
-  carBody.position.y = 0.75;
-  carGroup.add(carBody);
-
-  // Car Roof
-  const roofGeometry = new THREE.BoxGeometry(2, 0.8, 1.8);
-  const roofMaterial = new THREE.MeshPhongMaterial({ 
-    color: 0x111111,
-    metalness: 0.9,
-    roughness: 0.1
-  });
-  const carRoof = new THREE.Mesh(roofGeometry, roofMaterial);
-  carRoof.position.y = 1.9;
-  carGroup.add(carRoof);
-
-  // Wheels
-  const wheelGeometry = new THREE.CylinderGeometry(0.5, 0.5, 0.3, 32);
-  const wheelMaterial = new THREE.MeshPhongMaterial({ 
-    color: 0x333333,
-    metalness: 0.7,
-    roughness: 0.3
-  });
-
-  const wheelPositions = [
-    { x: 1.5, y: 0.5, z: 1.2 },
-    { x: 1.5, y: 0.5, z: -1.2 },
-    { x: -1.5, y: 0.5, z: 1.2 },
-    { x: -1.5, y: 0.5, z: -1.2 }
-  ];
-
-  wheelPositions.forEach(pos => {
-    const wheel = new THREE.Mesh(wheelGeometry, wheelMaterial);
-    wheel.rotation.z = Math.PI / 2;
-    wheel.position.set(pos.x, pos.y, pos.z);
-    carGroup.add(wheel);
-  });
-
-  // Headlights
-  const headlightGeometry = new THREE.BoxGeometry(0.3, 0.2, 0.2);
-  const headlightMaterial = new THREE.MeshPhongMaterial({ 
-    color: 0xFFD700,
-    emissive: 0xFFD700,
-    emissiveIntensity: 0.5
-  });
-
-  const leftHeadlight = new THREE.Mesh(headlightGeometry, headlightMaterial);
-  leftHeadlight.position.set(2.15, 0.9, 0.5);
-  carGroup.add(leftHeadlight);
-
-  const rightHeadlight = new THREE.Mesh(headlightGeometry, headlightMaterial);
-  rightHeadlight.position.set(2.15, 0.9, -0.5);
-  carGroup.add(rightHeadlight);
-
-  scene.add(carGroup);
-
-  // Position camera
-  camera.position.z = 8;
-  camera.position.y = 2;
-
-  // Animation variables
-  let mouseX = 0;
-  let mouseY = 0;
-  let targetRotationX = 0;
-  let targetRotationY = 0;
-
-  // Mouse move handler
-  document.addEventListener('mousemove', (event) => {
-    mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-    mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-    targetRotationY = mouseX * 0.5;
-    targetRotationX = mouseY * 0.2;
-  });
-
-  // Handle window resize
-  window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-  });
-
-  // Animation loop
-  function animate() {
-    requestAnimationFrame(animate);
-
-    // Smooth rotation based on mouse position
-    carGroup.rotation.y += (targetRotationY - carGroup.rotation.y) * 0.05;
-    carGroup.rotation.x += (targetRotationX - carGroup.rotation.x) * 0.05;
-
-    // Continuous slow rotation
-    carGroup.rotation.y += 0.002;
-
-    // Rotate wheels
-    carGroup.children.forEach((child, index) => {
-      if (index >= 4 && index <= 7) { // Wheels
-        child.rotation.x += 0.05;
-      }
-    });
-
-    renderer.render(scene, camera);
-  }
-
-  // GSAP Animations
-  gsap.registerPlugin();
-
-  // Animate elements on load
-  gsap.timeline()
-    .from("#brand-name", {
-      opacity: 0,
-      y: -50,
-      duration: 1.2,
-      ease: "power3.out"
-    })
-    .from("#car-model", {
-      opacity: 0,
-      y: 50,
-      duration: 1.2,
-      ease: "power3.out"
-    }, "-=0.8")
-    .from("p", {
-      opacity: 0,
-      y: 30,
-      duration: 1,
-      ease: "power3.out"
-    }, "-=0.6")
-    .from(".text-3xl", {
-      opacity: 0,
-      scale: 0.5,
-      duration: 1,
-      stagger: 0.2,
-      ease: "back.out(1.7)"
-    }, "-=0.4")
-    .from("button", {
-      opacity: 0,
-      y: 30,
-      duration: 0.8,
-      stagger: 0.2,
-      ease: "power3.out"
-    }, "-=0.3")
-    .from(".animate-bounce", {
-      opacity: 0,
-      y: -20,
-      duration: 1,
-      ease: "power3.out"
-    }, "-=1");
-
-  // Counter animation
-  gsap.to("[data-counter]", {
-    innerHTML: (i, target) => {
-      const endValue = target.dataset.counter === "0" ? 562 : target.dataset.counter === "1" ? 155 : 2.9;
-      return Math.floor(endValue);
-    },
-    duration: 2,
-    snap: { innerHTML: 1 },
-    ease: "power2.out",
-    stagger: 0.3,
-    delay: 1.5
-  });
-
-  // Start the animation
-  animate();
-</script><section id="showroom" class="min-h-screen bg-[#0a0a0a] relative overflow-hidden">
-  <!-- Background Pattern -->
-  <div class="absolute inset-0 opacity-10">
-    <div class="absolute inset-0" style="background-image: radial-gradient(#FFD700 1px, transparent 1px); background-size: 50px 50px;"></div>
-  </div>
-  
-  <!-- Header -->
-  <div class="relative z-10 container mx-auto px-4 py-12 md:py-20">
-    <div class="text-center max-w-3xl mx-auto">
-      <h1 class="text-4xl md:text-6xl font-bold text-[#FFD700] mb-4 tracking-tight">
-        SHOWROOM <span class="text-white">GALLERY</span>
-      </h1>
-      <p class="text-gray-300 text-lg md:text-xl mb-8">
-        Explore our exclusive collection of luxury vehicles in stunning 3D
-      </p>
-    </div>
-  </div>
-  
-  <!-- Car Grid -->
-  <div class="relative z-10 container mx-auto px-4 pb-20">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      <!-- Car Showroom 1 -->
-      <div class="showroom-item bg-black/30 backdrop-blur-sm rounded-2xl overflow-hidden border border-[#FFD700]/20 transition-all duration-300 hover:border-[#FFD700]/50 hover:shadow-2xl hover:shadow-[#FFD700]/20">
-        <div class="relative h-96">
-          <div id="car-scene-1" class="w-full h-full"></div>
-          <div class="absolute inset-0 flex items-end p-6 bg-gradient-to-t from-black/80 to-transparent">
-            <div class="text-white">
-              <h3 class="text-xl font-bold mb-1">PHANTOM</h3>
-              <p class="text-sm text-gray-300">Iconic Luxury Sedan</p>
-            </div>
-          </div>
-          <div class="absolute top-4 right-4 flex space-x-2">
-            <button class="car-control-btn bg-black/50 backdrop-blur-sm text-white p-2 rounded-lg hover:bg-[#FFD700]/20 transition-all" data-action="rotate-left">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
-            <button class="car-control-btn bg-black/50 backdrop-blur-sm text-white p-2 rounded-lg hover:bg-[#FFD700]/20 transition-all" data-action="zoom-in">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
-              </svg>
-            </button>
-            <button class="car-control-btn bg-black/50 backdrop-blur-sm text-white p-2 rounded-lg hover:bg-[#FFD700]/20 transition-all" data-action="zoom-out">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 10H7" />
-              </svg>
-            </button>
-            <button class="car-control-btn bg-black/50 backdrop-blur-sm text-white p-2 rounded-lg hover:bg-[#FFD700]/20 transition-all" data-action="rotate-right">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
-          </div>
-          <div class="absolute bottom-4 left-4">
-            <div class="flex space-x-2">
-              <div class="w-3 h-3 bg-[#FFD700] rounded-full animate-pulse"></div>
-              <span class="text-white text-xs">Interactive 3D Model</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Car Showroom 2 -->
-      <div class="showroom-item bg-black/30 backdrop-blur-sm rounded-2xl overflow-hidden border border-[#FFD700]/20 transition-all duration-300 hover:border-[#FFD700]/50 hover:shadow-2xl hover:shadow-[#FFD700]/20">
-        <div class="relative h-96">
-          <div id="car-scene-2" class="w-full h-full"></div>
-          <div class="absolute inset-0 flex items-end p-6 bg-gradient-to-t from-black/80 to-transparent">
-            <div class="text-white">
-              <h3 class="text-xl font-bold mb-1">GHOST</h3>
-              <p class="text-sm text-gray-300">Silent Luxury Tourer</p>
-            </div>
-          </div>
-          <div class="absolute top-4 right-4 flex space-x-2">
-            <button class="car-control-btn bg-black/50 backdrop-blur-sm text-white p-2 rounded-lg hover:bg-[#FFD700]/20 transition-all" data-action="rotate-left">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
-            <button class="car-control-btn bg-black/50 backdrop-blur-sm text-white p-2 rounded-lg hover:bg-[#FFD700]/20 transition-all" data-action="zoom-in">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
-              </svg>
-            </button>
-            <button class="car-control-btn bg-black/50 backdrop-blur-sm text-white p-2 rounded-lg hover:bg-[#FFD700]/20 transition-all" data-action="zoom-out">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 10H7" />
-              </svg>
-            </button>
-            <button class="car-control-btn bg-black/50 backdrop-blur-sm text-white p-2 rounded-lg hover:bg-[#FFD700]/20 transition-all" data-action="rotate-right">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
-          </div>
-          <div class="absolute bottom-4 left-4">
-            <div class="flex space-x-2">
-              <div class="w-3 h-3 bg-[#FFD700] rounded-full animate-pulse"></div>
-              <span class="text-white text-xs">Interactive 3D Model</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Car Showroom 3 -->
-      <div class="showroom-item bg-black/30 backdrop-blur-sm rounded-2xl overflow-hidden border border-[#FFD700]/20 transition-all duration-300 hover:border-[#FFD700]/50 hover:shadow-2xl hover:shadow-[#FFD700]/20">
-        <div class="relative h-96">
-          <div id="car-scene-3" class="w-full h-full"></div>
-          <div class="absolute inset-0 flex items-end p-6 bg-gradient-to-t from-black/80 to-transparent">
-            <div class="text-white">
-              <h3 class="text-xl font-bold mb-1">WRAITH</h3>
-              <p class="text-sm text-gray-300">Coupe of Uncompromising Power</p>
-            </div>
-          </div>
-          <div class="absolute top-4 right-4 flex space-x-2">
-            <button class="car-control-btn bg-black/50 backdrop-blur-sm text-white p-2 rounded-lg hover:bg-[#FFD700]/20 transition-all" data-action="rotate-left">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
-            <button class="car-control-btn bg-black/50 backdrop-blur-sm text-white p-2 rounded-lg hover:bg-[#FFD700]/20 transition-all" data-action="zoom-in">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
-              </svg>
-            </button>
-            <button class="car-control-btn bg-black/50 backdrop-blur-sm text-white p-2 rounded-lg hover:bg-[#FFD700]/20 transition-all" data-action="zoom-out">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 10H7" />
-              </svg>
-            </button>
-            <button class="car-control-btn bg-black/50 backdrop-blur-sm text-white p-2 rounded-lg hover:bg-[#FFD700]/20 transition-all" data-action="rotate-right">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
-          </div>
-          <div class="absolute bottom-4 left-4">
-            <div class="flex space-x-2">
-              <div class="w-3 h-3 bg-[#FFD700] rounded-full animate-pulse"></div>
-              <span class="text-white text-xs">Interactive 3D Model</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Car Showroom 4 -->
-      <div class="showroom-item bg-black/30 backdrop-blur-sm rounded-2xl overflow-hidden border border-[#FFD700]/20 transition-all duration-300 hover:border-[#FFD700]/50 hover:shadow-2xl hover:shadow-[#FFD700]/20">
-        <div class="relative h-96">
-          <div id="car-scene-4" class="w-full h-full"></div>
-          <div class="absolute inset-0 flex items-end p-6 bg-gradient-to-t from-black/80 to-transparent">
-            <div class="text-white">
-              <h3 class="text-xl font-bold mb-1">Dawn</h3>
-              <p class="text-sm text-gray-300">Luxury Drophead Coupe</p>
-            </div>
-          </div>
-          <div class="absolute top-4 right-4 flex space-x-2">
-            <button class="car-control-btn bg-black/50 backdrop-blur-sm text-white p-2 rounded-lg hover:bg-[#FFD700]/20 transition-all" data-action="rotate-left">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
-            <button class="car-control-btn bg-black/50 backdrop-blur-sm text-white p-2 rounded-lg hover:bg-[#FFD700]/20 transition-all" data-action="zoom-in">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
-              </svg>
-            </button>
-            <button class="car-control-btn bg-black/50 backdrop-blur-sm text-white p-2 rounded-lg hover:bg-[#FFD700]/20 transition-all" data-action="zoom-out">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 10H7" />
-              </svg>
-            </button>
-            <button class="car-control-btn bg-black/50 backdrop-blur-sm text-white p-2 rounded-lg hover:bg-[#FFD700]/20 transition-all" data-action="rotate-right">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
-          </div>
-          <div class="absolute bottom-4 left-4">
-            <div class="flex space-x-2">
-              <div class="w-3 h-3 bg-[#FFD700] rounded-full animate-pulse"></div>
-              <span class="text-white text-xs">Interactive 3D Model</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Car Showroom 5 -->
-      <div class="showroom-item bg-black/30 backdrop-blur-sm rounded-2xl overflow-hidden border border-[#FFD700]/20 transition-all duration-300 hover:border-[#FFD700]/50 hover:shadow-2xl hover:shadow-[#FFD700]/20">
-        <div class="relative h-96">
-          <div id="car-scene-5" class="w-full h-full"></div>
-          <div class="absolute inset-0 flex items-end p-6 bg-gradient-to-t from-black/80 to-transparent">
-            <div class="text-white">
-              <h3 class="text-xl font-bold mb-1">CULLINAN</h3>
-              <p class="<section id="about" style='background-color:#0a0a0a; color:#FFD700; position:relative; overflow:hidden; min-height:80vh; display:flex; align-items:center; padding:0 5vw;'>\n    <div class='parallax-container' style='position:absolute; top:0; left:0; width:100%; height:100%; overflow:hidden;'>\n        <div class='bg-layer' style='position:absolute; top:0; left:0; width:200%; height:100%; background:url('https://source.unsplash.com/random/1920x1920?car,night') no-repeat center center; background-size:cover; opacity:0.3; z-index:1;\">\n            <div class='bg-layer' style='position:absolute; top:0; left:0; width:100%; height:100%; background:url('https://source.unsplash.com/random/1920x1920?car,day') no-repeat center center; background-size:cover; opacity:0.15; z-index:1;\">\n                <div class='bg-layer' style='position:absolute; top:0; left:0; width:100%; height:100%; background:url('https://source.unsplash.com/random/1920x1920?car,day') no-repeat center center; background-size:cover; opacity:0.2; z-index:1;\">\n                    <div class='bg-layer' style='position:absolute; top:0; left:0; width:100%; height:100%; background:url('https://source.unsplash.com/random/1920x1920?car,day') no-repeat center center; background-size:cover; opacity:0.2; z-index:1;\">\n                        <div class='bg-layer' style='position:absolute; top:0; left:0; width:100%; height:100%; background:url('https://source.unsplash.com/random/1920x1920?car,day') no-repeat center center; background-size:cover; opacity:0.2; z-index:1;\">\n                            <div class='bg-layer' style='position:absolute; top:0; left:0; width:100%; height:100%; background:url('https://source.unsplash.com/random/1920x1920?car,day') no-repeat center center; background-size:cover; opacity:0.2; z-index:1;\">\n                                <div class='bg-layer' style='position:absolute; top:0; left:0; width:100%; height:100%; background:url('https://source.unsplash.com/random/1920x1920?car,day') no-repeat center center; background-size:cover; opacity:0.2; z-index:1;\">\n                                    <div class='bg-layer' style='position:absolute; top:0; left:0; width:100%; height:100%; background:url('https://source.unsplash.com/random/1920x1920?car,day') no-repeat center center; background-size:cover; opacity:0.2; z-index:1;\">\n                                        <div class='bg-layer' style='position:absolute; top:0; left:0; width:100%; height:100%; background:url('https://source.unsplash.com/random/1920x1920?car,day') no-repeat center center; background-size:cover; opacity:0.2; z-index:1;\">\n                                            <div class='bg-layer' style='position:absolute; top:0; left:0; width:100%; height:100%; background:url('https://source.unsplash.com/random/1920x1920?car,day') no-repeat center center; background-size:cover; opacity:0.2; z-index:1;\">\n                                                <div class='bg-layer' style='position:absolute; top:0; left:0; width:100%; height:100%; background:url('https://source.unsplash.com/random/1920x1920?car,day') no-repeat center center; background-size:cover; opacity:0.2; z-index:1;\">\n                                                    <div class='bg-layer' style='position:absolute; top:0; left:0; width:100%; height:100%; background:url('https://source.unsplash.com/random/1920x1920?car,day') no-repeat center center; background-size:cover; opacity:0.2; z-index:1;\">\n                                                        <div class='bg-layer' style='position:absolute; top:0; left:0; width:100%; height:100%; background:url('https://source.unsplash.com/random/1920x1920?car,day') no-repeat center center; background-size:cover; opacity:0.2; z-index:1;\">\n                                                            <div class='bg-layer' style='position:absolute; top:0; left:0; width:100%; height:100%; background:url('https://source.unsplash.com/random/1920x1920?car,day') no-repeat center center; background-size:cover; opacity:0.2; z-index:1;\">\n                                                <div class='bg-layer' style='position:absolute; top:0; left:0; width:100%; height:100%; background:url('https://source.unsplash.com/random/1920x1920?car,day') no-repeat center center; background-size:cover; opacity:0.2; z-index:1;\">\n                                                    <div class='bg-layer' style='position:absolute; top:0; left:0; width:100%; height:100%; background:url('https://source.unsplash.com/random/1920x1920?car,day') no-repeat center center; background-size:cover; opacity:0.2; z-index:1;\">\n                                                        <div class='bg-layer' style='position:absolute; top:0; left:0; width:100%; height:100%; background:url('https://source.unsplash.com/random/1920x1920?car,day') no-repeat center center; background-size:cover; opacity:0.2; z-index:1;\">\n                                                            <div class='bg-layer' style='position:absolute; top:0; left:0; width:100%; height:100%; background:url('https://source.unsplash.com/random/1920x1920?car,day') no-repeat center center; background-size:cover; opacity:0.2; z-index:1;\">\n                                                <div class='bg-layer' style='position:absolute; top:0; left:0; width:100%; height:100%; background:url('https://source.unsplash.com/random/1920x1920?car,day') no-repeat center center; background-size:cover; opacity:0.2; z-index:1;\">\n                                                    <div class='bg-layer' style='position:absolute; top:0; left:0; width:100%; height:100%; background:url('https://source.unsplash.com/random/1920x1920?car,day') no-repeat center center; background-size:cover; opacity:0.2; z-index:1;\">\n                                                        <div class='bg-layer' style='position:absolute; top:0; left:0; width:100%; height:100%; background:url('https://source.unsplash.com/random/1920x1920?car,day') no-repeat center center; background-size:cover; opacity:0.2; z-index:1;\">\n                                                            <div class='bg-layer' style='position:absolute; top:0; left:0; width:100%; height:100%; background:url('https://source.unsplash.com/random/1920x1920?car,day') no-repeat center center; background-size:cover; opacity:0.2; z-index:1;\">\n                                                <div class='bg-layer' style='position:absolute; top:0; left:0; width:100%; height:100%; background:url('https://source.unsplash.com/random/1920x1920?car,day') no-repeat center center; background-size:cover; opacity:0.2; z-index:1;\'>\n                                                    <div class='bg-layer' style='position:absolute; top:0; left:0; width:100%; height:100%; background:url('https://source.unsplash.com/random/1920x1920?car,day') no-repeat center center; background-size:cover; opacity:0.2; z-index:1;\'>\n                                                        <div class='bg-layer' style='position:absolute; top:0; left:0; width:100%; height:100%; background:url('https://source.unsplash.com/random/1920x1920?car,day') no-repeat center center; background-size:cover; opacity:0.2; z-index:1;\'>\n                                                            <div class='bg-layer' style='position:absolute; top:0; left:0; width:100%; height:100%; background:url('https://source.unsplash.com/random/1920x1920?car,day') no-repeat center center; background-size:cover; opacity:0.2; z-index:1;\'>\n                                                <div class='bg-layer' style='position:absolute; top:0; left:0; width:100%; height:100%; background:url('https://source.unsplash.com/random/1920x1920?car,day') no-repeat center center; background-size:cover; opacity:0.2; z-index:1;\'>\n                                                    <div class='bg-layer' style='position:absolute; top:0; left:0; width:100%; height:100%; background:url('https://source.unsplash.com/random/1920x1920?car,day') no-repeat center center; background-size:cover; opacity:0.2; z-index:1;\'>\n                                                        <div class='bg-layer' style='position:absolute; top:0; left:0; width:100%; height:100%; background:url('https://source.unsplash.com/random/1920x1920?car,day') no-repeat center center; background-size:cover; opacity:0.2; z-index:1;\'>\n                                                            <div class='bg-layer' style='position:absolute; top:0; left:0; width:100%; height:100%; background:url('https://source.unsplash.com/random/1920x1920?car,day') no-repeat center center; background-size:cover; opacity:0.2; z-index:1;\'>\n                                                <div class='bg-layer' style='position:absolute; top:0; left:0; width:100%; height:100%; background:url('https://source.unsplash.com/random/1920x1920?car,day') no-repeat center center; background-size:cover; opacity:0.2; z-index:1;\'>\n                                                    <div class='bg-layer' style='position:absolute; top:0; left:0; width:100%; height:100%; background:url('https://source.unsplash.com/random/1920x1920?car,day') no-repeat center center; background-size:cover; opacity:0.2; z-index:1;\'>\n                                                        <div class='bg-layer' style='position:absolute; top:0; left:0; width:100%; height:100%; background:url('https://source.unsplash.com/random/1920x1920?car,day') no-repeat center center; background-size:cover; opacity:0.2; z-index:1;\'>\n                                                            <div class='bg-layer' style='position:absolute; top:0; left:0; width:100%; height:100%; background:url('https://source.unsplash.com/random/1920x1920?car,day') no-repeat center center; background-size:cover; opacity:0.2; z-index:1;\'>\n                                                <div class='bg-layer' style='position:absolute; top:0; left:0; width:100%; height:100%; background:url('https://source.unsplash.com/random/1920x1920?car,day') no-repeat center center; background-size:cover; opacity:0.2; z-index:1;\'>\n                                                    <div class='bg-layer' style='position:absolute; top:0; left:0; width:100%; height:100%; background:url('https://source.unsplash.com/random/1920x1920?car,day') no-repeat center center; background-size:cover; opacity:0.2; z-index:1;\'>\n                                                        <div class='bg-layer' style='position:absolute; top<section id="features" class="features-section">
-  <div class="container">
-    <h2>Key Features</h2>
-    <div class="features-grid">
-      <div class="feature-card">
-        <i class="neon-icon neon-icon-car"></i>
-        <h3>High-Performance Engine</h3>
-        <p class="feature-description">Powerful engine delivering exceptional speed and acceleration.</p>
-      </div>
-      <div class="feature-card">
-        <i class="neon-icon neon-icon-serenity"></i>
-        <h3>Ultimate Comfort</h3>
-        <p class="feature-description">Luxurious interior with premium materials for unparalleled comfort.</p>
-      </div>
-      <div class="feature-card">
-        <i class="neon-icon neon-icon-security"></i>
-        <h3>Advanced Safety Features</h3>
-        <p class="feature-description">State-of-the-art safety systems for peace of mind on every drive.</p>
-      </div>
-      <div class="feature-card">
-        <i class="neon-icon neon-icon-technology"></i>
-        <h3>Smart Technology Integration</h3>
-        <p class="feature-description">Cutting-edge tech for connectivity and driver assistance.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<style>
-#features {
-  background-color: #0a0a0a;
-  color: #ffffff;
-  padding: 4rem 0;
-  text-align: center;
-}
-
-.features-section h2 {
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
-}
-
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  justify-items: center;
-}
-
-.feature-card {
-  background-color: rgba(255, 215, 0, 0.1);
-  border-radius: 10px;
-  padding: 2rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease-in-out;
-}
-
-.feature-card:hover {
-  transform: translateY(-10px);
-}
-
-.neon-icon {
-  color: #FFD700;
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-}
-
-.feature-description {
-  font-size: 1.1rem;
-  line-height: 1.6;
-  margin: 0;
-}
-
-/* Neon Icons */
-.neon-icon-car::before { content: "\f311"; }
-.neon-icon-serenity::before { content: "\f312"; }
-.neon-icon-security::before { content: "\f313"; }
-.neon-icon-technology::before { content: "\f314"; }
-
-@import url('https://cdnjs.cloudflare.com/ajax/libs/ionicons/5.5.0-1039/ionicons.min.css');
-</style>
-
-<script>
-gsap.from(".feature-card", {duration: 1, opacity: 0, y: 50, stagger: 0.5, ease: "power3.in"});
-</script><div>  
-  <div class="contact">  
-    <div class="glow">Glowing Highlights</div>  
-    <button class="submit-anime">Animate Submit</button>  
-  </div>  
-</div>
+<div style="background-color: #0a0a0a; color: #FFD700;"></div>
     <script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RR Cars - 3D Showroom</title>
+<title>3D Solar System</title>
 <style>
-body { background-color: #0a0a0a; color: #ffd700; font-family: Arial, sans-serif; }
-.hero { text-align: center; padding: 100px; }
-.hero img { width: 100%; height: 400px; object-position: center; }
-.showroom-gallery { margin-top: 50px; }
-.magical-btn { padding: 15px 30px; border: none; color: #fff; background: #0a0a0a; text-shadow: 2px 2px #ffd700; cursor: pointer; }
+body { margin: 0; font-family: Arial, sans-serif; }
+h1 { color: #FFD700; }
 </style>
 </head>
 <body>
-<div class="hero">
-<div class="hero-content">
-  <h1>Welcome to RR Cars</h1>
-  <p>Experience the future of automotive excellence</p>
-  <button class="magical-btn">Explore Showrooms</button>
-</div>
-</div>
+
+<h1>3D Solar System</h1>
+
+<div id="scene"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.tag.js"></script>
-<script src="https://threejs.org/examples/js/controls/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/scroll-trigger/3.2.1/scroll-trigger.min.js"></script>
 
 <script>
+// Hero Section
+document.getElementById('scene').style.backgroundColor = '#0a0a0a';
+document.body.style.color = '#ffd700';
+
+// 3D sections
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.z = 100;
+
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
+document.getElementById('scene').appendChild(renderer.domElement);
 
-// Magnetic buttons & glow
-const glow = new THREE.ShadowMipmap(1, 1, 100);
-const light = new THREE.HemisphereLight(0xFFD700, 1, new THREE.PointLight(0xFFD700, 1));
-scene.add(glow);
-scene.add(new THREE.Light({ position: new THREE.Vector3(0, 0, 1), range: 1000 }));
-light.position.set(0, 0, 200);
-gsap.registerPlugin(ScrollTrigger);
+// Create Sun
+const sunGeometry = new THREE.SphereGeometry(5, 32, 32);
+const sunMaterial = new THREE.MeshBasicMaterial({ color: '#FFD700' });
+const sun = new THREE.Mesh(sunGeometry, sunMaterial);
+scene.add(sun);
 
-// Example 3D car model (simplified)
-const carGeometry = new THREE.SphereGeometry(10, 32, 32);
-const carMaterial = new THREE.MeshPhongMaterial({ color: 0x00ff00, shininess: 100 });
-const car = new THREE.Mesh(carGeometry, carMaterial);
-scene.add(car);
+// Add planets with GSAP animations
+const planets = [
+    { name: 'Mercury', r: 1, speed: 0.1, color: '#333', animation: () => gsap.to(sun.position, { x: Math.cos(Math.PI * planets.speed) * 100, y: Math.sin(Math.PI * planets.speed) * 100, duration: 2 }) },
+    { name: 'Venus', r: 1.5, speed: 0.15, color: '#FFD700', animation: () => gsap.to(sun.position, { x: 0, y: 0 }) },
+    { name: 'Earth', r: 2, speed: 0.2, color: '#FFD700', animation: () => gsap.to(sun.position, { x: Math.cos(Math.PI * 0.1) * 150, y: Math.sin(Math.PI * 0.1) * 150, duration: 2 }) },
+    { name: 'Mars', r: 1.8, speed: 0.2, color: '#FFD700', animation: () => gsap.to(sun.position, { x: Math.cos(Math.PI * 0.35) * 120, y: Math.sin(Math.PI * 0.35) * 120, duration: 2 }) },
+    { name: 'Jupiter', r: 5, speed: 0.25, color: '#FFD700', animation: () => gsap.to(sun.position, { x: Math.cos(Math.PI * 0.5) * 200, y: Math.sin(Math.PI * 0.5) * 200, duration: 2 }) },
+    { name: 'Saturn', r: 5, speed: 0.3, color: '#FFD700', animation: () => gsap.to(sun.position, { x: 0, y: Math.sin(Math.PI * 0.8) * 180, duration: 3 }) },
+    { name: 'Uranus', r: 4, speed: 0.3, color: '#FFD700', animation: () => gsap.to(sun.position, { x: Math.cos(Math.PI * 0.9) * 220, y: 0, duration: 3 }) },
+    { name: 'Neptune', r: 4, speed: 0.35, color: '#FFD700', animation: () => gsap.to(sun.position, { x: Math.cos(Math.PI * 1.3) * 250, y: Math.sin(Math.PI * 1.3) * 250, duration: 4 }) }
+];
 
-camera.position.z = 50;
-
-function animate() {
-  requestAnimationFrame(animate);
-  gsap.to(car.position, { x: 2, y: 4, z: 0, duration: 2, onComplete: () => {});
-  gsap.to(glow, { rotation: Math.PI * 2, duration: 3 });
-  renderer.render(scene, camera);
+// Magnetic buttons
+const buttons = [];
+for (let i = 0; i < 3; i++) {
+    const button = document.createElement('button');
+    button.className = 'magnetic-button';
+    button.style.position = 'absolute';
+    button.style.border = 'none';
+    button.style.cursor = 'pointer';
+    button.style.fontSize = '12px';
+    button.style.backgroundColor = '#FFD700';
+    button.style.color = '#0a0a0a';
+    button.style.padding = '10px';
+    button.style.zIndex = 1000;
+    button.addEventListener('click', () => gsap.to(buttons[i].style.backgroundColor, { duration: 0.3, opacity: 0.5 });
+    scene.add(button);
+    buttons.push(button);
 }
-animate();
+
+// ScrollTrigger for mobile
+const trigger = new ScrollTrigger({ trigger: 'scroll', start: 0, end: 100 });
+trigger.load();
+window.addEventListener('scroll', () => {
+    if (window.innerHeight > 0 && window.pageYOffset > 0) {
+        gsap.to(scene, { scrollTo: { x: 0, y: 0 }, duration: 0.5 });
+    }
+});
+
+// Add glow to cursor
+const glow = new THREE.ConeLight();
+glow.position.set(0, 0, 0);
+glow.color = '#FFD700';
+glow.shadowSize = 20;
+sun.add(glow);
+
+camera.position.z = 1000;
+
+// Mobile fallback
+window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+});
 
 </script>
+
 </body>
 </html>
     </script>
