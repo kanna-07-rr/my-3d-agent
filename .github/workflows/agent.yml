@@ -35,9 +35,19 @@ jobs:
         run: python agent.py
 
       - name: Commit & Push Generated Website
-        run: |
-          git config user.name "3DSiteAgent"
-          git config user.email "agent@3dsite.com"
-          git add index.html
-          git diff --staged --quiet || git commit -m "Generated site: ${{ github.event.inputs.prompt }}"
-          git push
+  shell: bash
+  run: |
+    git config --global user.name "3DSiteAgent"
+    git config --global user.email "agent@3dsite.com"
+
+    git add .
+
+    PROMPT="${{ github.event.inputs.prompt }}"
+    SAFE_PROMPT=$(echo "$PROMPT" | tr '\n\r' ' ' | sed 's/[^a-zA-Z0-9 ]//g' | cut -c1-50)
+
+    if git diff --cached --quiet; then
+      echo "No changes to commit"
+    else
+      git commit -m "Generated: $SAFE_PROMPT"
+      git push
+    fi
