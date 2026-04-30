@@ -3,269 +3,1043 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Solar System</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display+Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <meta name="description" content="R Bawarchi — Crafted with Fire. Served with Legacy.">
+    <title>R Bawarchi — Royal Biryani House</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;600;700;900&family=Cormorant+Garamond:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <style>
---style --primary --secondary
-font-family: 'Playfair Display', sans-serif;
-font-size: 2rem;
-font-weight: 600;
-color: #fff;
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;700&family=Playfair+Display:wght@700;900&display=swap');
 
 :root {
-  --bg-color: #0a0a0a;
-  --primary: #FFD700;
-  --secondary: #ff6b35;
-  --text-color: #fff;
-  --gloss: rgba(0,0,0,0.05);
+  --bg: #080503;
+  --primary: #C9A84C;
+  --secondary: #8B2500;
+  --accent: #F4D03F;
+  --text-light: #f5f0e8;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
-  margin: 0;
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  font-family: 'Inter', sans-serif;
-  line-height: 1.6;
-  padding: 0;
+  background-color: var(--bg);
+  color: var(--text-light);
+  font-family: 'Cormorant Garamond', serif;
+  line-height: 1.7;
+}
+
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 1.5rem 5%;
+  background: rgba(15, 10, 5, 0.5);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.1);
+}
+
+.nav .logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.nav ul {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+}
+
+.nav ul li a {
+  color: var(--text-light);
+  text-decoration: none;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
+}
+
+.nav ul li a:hover {
+  color: var(--primary);
+}
+
+section {
   min-height: 100vh;
+  padding: 80px 5%;
+  position: relative;
+  overflow: hidden;
 }
 
 .hero {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  min-height: calc(100vh - 80px); /* Adjust for nav height */
+}
+
+.hero canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3rem, 8vw, 7rem);
+  color: var(--primary);
+  margin-bottom: 1rem;
+  line-height: 1.1;
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 5vw, 4rem);
+  margin-bottom: 2rem;
+  line-height: 1.2;
+  color: var(--text-light);
+}
+
+h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
+
+p {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.btn-primary {
+  display: inline-block;
+  padding: 1rem 3rem;
+  background: var(--primary);
+  color: #000;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: none;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(10deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: var(--accent);
+  transform: translateY(-2px);
+}
+
+.btn-primary:hover::before {
+  left: 100%;
+}
+
+.btn-secondary {
+  display: inline-block;
+  padding: 1rem 3rem;
+  background: transparent;
+  color: var(--primary);
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: 2px solid var(--primary);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.btn-secondary:hover {
+  background: var(--primary);
+  color: #000;
+  transform: translateY(-2px);
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(201, 168, 76, 0.2);
+  border-radius: 12px;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.menu-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(201, 168, 76, 0.15);
+  border-radius: 16px;
+  padding: 2rem;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  transform-style: preserve-3d;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.menu-card:hover {
+  border-color: var(--primary);
+  box-shadow: 0 20px 60px rgba(201, 168, 76, 0.2);
+  transform: translateY(-8px) rotateY(2deg);
+}
+
+.menu-card h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.menu-card .price {
+  font-weight: 700;
+  color: var(--accent);
+  margin-top: 1rem;
+}
+
+.testimonial-section {
+  background: linear-gradient(rgba(8, 5, 3, 0.8), rgba(8, 5, 3, 0.8)), url('./images/testimonial-bg.jpg'); /* Replace with actual path */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.testimonial-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(201, 168, 76, 0.2);
+  border-radius: 16px;
+  padding: 2rem;
+  margin: 1rem;
+  text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.05)), url('https://cdnjs.cloudflare.com/ajax/libs/playfair-design/0.9.0/Playfair-Regular.current.css');
-  background-size: cover;
-  background-position: center;
-  animation: fadeIn 4s ease-in;
+  height: 100%;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+.testimonial-card p {
+  font-style: italic;
+  max-width: 600px;
+  margin: 0 auto 1rem auto;
 }
 
-.hero h1 {
-  font-bold;
+.testimonial-card .author {
+  font-weight: 700;
+  color: var(--primary);
+  margin-top: 1rem;
+}
+
+.form-section {
+  background: rgba(15, 10, 5, 0.4);
+}
+
+form {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.form-group {
+  position: relative;
   margin-bottom: 2rem;
-  color: var(--secondary);
-  animation: fadeIn 2s ease-out;
 }
 
-.hero p {
-  font-size: 1.8rem;
-  margin-bottom: 1.5rem;
-  color: var(--text-color);
-  animation: float 2s ease;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-.btn {
-  padding: 1rem 2rem;
-  background-color: var(--primary);
-  color: #fff;
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  background: transparent;
   border: none;
-  border-radius: 8px;
-  font-family: 'Playfair Display', sans-serif;
-  font-size: 1.1rem;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.3);
+  padding: 1rem 0;
+  color: var(--text-light);
+  font-size: 1rem;
   outline: none;
-  outline-offset: 2px;
+  transition: border-color 0.3s ease;
+  font-family: 'Cormorant Garamond', serif;
 }
 
-.btn:hover {
-  background-color: var(--secondary);
-  color: #fff;
+.form-group input:focus,
+.form-group textarea:focus {
+  border-bottom-color: var(--primary);
 }
 
-.sections {
-  padding: 4rem 2rem;
-  background-color: rgba(0,0,0,0.1);
+.form-label {
+  position: absolute;
+  top: 1rem;
+  left: 0;
+  color: rgba(245, 240, 232, 0.5);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+input:focus ~ .form-label,
+input:not(:placeholder-shown) ~ .form-label,
+textarea:focus ~ .form-label,
+textarea:not(:placeholder-shown) ~ .form-label {
+  top: -0.5rem;
+  font-size: 0.75rem;
   color: var(--primary);
 }
 
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.modal-overlay.active {
+  display: flex;
+  opacity: 1;
+}
+
+.modal-box {
+  background: #0f0a05;
+  border: 1px solid var(--primary);
+  border-radius: 20px;
+  padding: 3rem;
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+  transform: scale(0.9);
+  animation: zoomIn 0.3s ease forwards;
+}
+
+.modal-box h3 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.modal-box .btn-primary {
+  width: 100%;
+  margin-top: 1.5rem;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.modal-close-btn:hover {
+  color: var(--primary);
+}
+
+@keyframes zoomIn {
+  to {
+    transform: scale(1);
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #111;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 3px;
+}
+
+.divider {
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(to right, transparent, var(--primary), transparent);
+  margin: 1.5rem auto;
+}
+
+footer {
+  padding: 3rem 5%;
+  text-align: center;
+  background: #110d0a;
+  font-size: 0.9rem;
+  color: rgba(245, 240, 232, 0.7);
+}
+
+footer a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .nav ul {
+    gap: 1rem;
+  }
+  .nav ul li a {
+    font-size: 1rem;
+  }
+  h1 {
+    font-size: clamp(2.5rem, 6vw, 5rem);
+  }
+  h2 {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+  }
+  .btn-primary, .btn-secondary {
+    padding: 0.8rem 2rem;
+    font-size: 0.9rem;
+  }
+}
+
 @media (max-width: 768px) {
-  .hero h1 {
-    font-size: 2rem;
+  .nav {
+    padding: 1rem 5%;
   }
-  .hero p {
-    font-size: 1.2rem;
+  .nav .logo {
+    font-size: 1.5rem;
   }
-  .btn {
-    padding: 0.8rem 1.5rem;
+  .nav ul {
+    display: none; /* Hamburger menu logic would go here */
+  }
+
+  section {
+    padding: 60px 5%;
+    min-height: auto;
+  }
+
+  .hero {
+    min-height: 60vh;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero canvas {
+    height: 70vh; /* Reduced height for smaller screens */
+  }
+
+  h1 {
+    font-size: clamp(2rem, 8vw, 4.5rem);
+    text-align: center;
+  }
+  h2 {
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    text-align: center;
+  }
+
+  .menu-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .menu-card {
+    padding: 1.5rem;
+  }
+
+  .testimonial-card {
+    margin: 0.5rem;
+  }
+
+  .modal-box {
+    padding: 2rem;
   }
 }
 
 @media (max-width: 480px) {
-  .hero {
-    height: auto;
-    padding: 2rem;
+  h1 {
+    font-size: 2rem;
   }
-  .sections {
-    padding: 1rem;
+  h2 {
+    font-size: 1.3rem;
   }
-}
-
-button {
-  padding: 0.75rem 1.5rem;
-  font-family: 'Inter', sans-serif;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: opacity 0.3s;
-}
-
-button:hover {
-  opacity: 0.9;
-}
-
-/* Glassmorphism effects */
-.sections {
-  background: rgba(0,0,0,0.1);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-}
-
-/* Animations */
-.hero {
-  transform: translateZ(0);
-}
-
-/* Responsive scrollbar */
-::-webkit-scrollbar {
-  width: 12px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--secondary);
-  border-radius: 4px;
-}
-
-/* Cursor glow */
-a {
-  text-decoration: none;
-  color: var(--text-color);
-  transition: color 0.3s;
-}
-
-a:hover {
-  color: var(--primary);
+  .btn-primary, .btn-secondary {
+    padding: 0.8rem 1.5rem;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+  }
+  .menu-card h4 {
+    font-size: 1.2rem;
+  }
+  .form-group input, .form-group textarea {
+    font-size: 0.9rem;
+  }
 }
     </style>
 </head>
 <body>
-<div style="background-color: #0a0a0a; color: #FFD700;"></div>
-    <script>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>3D Solar System</title>
-<style>
-body { margin: 0; font-family: Arial, sans-serif; }
-h1 { color: #FFD700; }
-</style>
-</head>
-<body>
+Build the hero section HTML for restaurant "R Bawarchi".
 
-<h1>3D Solar System</h1>
+Output ONLY the HTML below. No DOCTYPE, no <html>, no <head>, no <body>, no <style>, no <script>.
 
-<div id="scene"></div>
+Include:
+- <nav> tag with class="nav" containing: logo "R Bawarchi" (anchor .nav-logo), ul.nav-links with links: Our Story, Menu, Experience, Reserve
+- <section id="hero" class="hero"> containing:
+  - <canvas id="heroCanvas"></canvas>
+  - <div class="hero-content"> with:
+    - <p> tag: "Royal Biryani House" in uppercase letter-spacing style
+    - <h1>Crafted with Fire.<br>Served with Legacy.</h1>
+    - <div class="divider"></div>
+    - <p> tag: "Where centuries of culinary tradition meet modern luxury"
+    - <a href="#menu" class="btn-primary" id="ctaBtn">Explore the Menu</a>
+- <div id="modal-overlay" class="modal-overlay"> containing .modal-box with close button and placeholder content
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/scroll-trigger/3.2.1/scroll-trigger.min.js"></script>
+All text must be visible. The section background is #080503.Build the "Our Story" section HTML for restaurant "R Bawarchi".
 
+Output ONLY the section HTML. No DOCTYPE, no html/head/body/style/script tags.
+
+Include:
+<section id="story" style="background:#080503;padding:100px 5%;">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:4rem;">
+      <p style="color:#C9A84C;letter-spacing:3px;text-transform:uppercase;font-size:0.85rem;">Since 1978</p>
+      <h2>A Legacy Forged in Fire</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="story-grid">
+      <div class="story-text">
+        <div class="year">1978</div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:2rem;color:#C9A84C;margin-bottom:1.5rem;">Where Every Grain Tells a Story</h3>
+        <p style="margin-bottom:1.5rem;">Born in the royal kitchens of Hyderabad, our dum biryani recipe has been passed down through five generations. Each pot sealed with dough, each grain slow-cooked for 48 hours over charcoal fire.</p>
+        <p style="margin-bottom:2rem;">We don't just serve food — we serve heritage. Every plate carries the weight of centuries, the warmth of tradition, and the soul of authentic Indian craftsmanship.</p>
+        <a href="#menu" class="btn-primary">Discover Our Menu</a>
+      </div>
+      <div class="spice-decoration">
+        <div class="spice-item">🌿</div>
+        <div style="width:1px;height:80px;background:linear-gradient(to bottom,transparent,#C9A84C,transparent);"></div>
+        <div class="spice-item">⭐</div>
+        <div style="width:1px;height:80px;background:linear-gradient(to bottom,transparent,#C9A84C,transparent);"></div>
+        <div class="spice-item">🔥</div>
+        <div style="border:1px solid rgba(201,168,76,0.3);padding:2rem;border-radius:12px;text-align:center;">
+          <p style="color:#C9A84C;font-size:3rem;font-family:'Playfair Display',serif;font-weight:900;">47</p>
+          <p style="color:rgba(245,240,232,0.7);font-size:0.85rem;letter-spacing:2px;text-transform:uppercase;">Spice Varieties</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>Build the Menu section HTML for restaurant "R Bawarchi".
+
+Output ONLY the section HTML. No DOCTYPE, no html/head/body/style/script tags.
+
+<section id="menu" style="background:linear-gradient(180deg,#080503 0%,#0d0805 100%);padding:100px 5%;">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:4rem;">
+      <p style="color:#C9A84C;letter-spacing:3px;text-transform:uppercase;font-size:0.85rem;">Curated For You</p>
+      <h2>Signature Collection</h2>
+      <div class="divider"></div>
+    </div>
+    <div style="display:flex;gap:1rem;justify-content:center;margin-bottom:3rem;flex-wrap:wrap;">
+      <button onclick="filterMenu('all')" style="padding:0.5rem 1.5rem;background:rgba(201,168,76,0.15);border:1px solid #C9A84C;color:#C9A84C;cursor:pointer;border-radius:4px;letter-spacing:1px;text-transform:uppercase;font-size:0.8rem;">All</button>
+      <button onclick="filterMenu('biryani')" style="padding:0.5rem 1.5rem;background:transparent;border:1px solid rgba(201,168,76,0.3);color:rgba(245,240,232,0.7);cursor:pointer;border-radius:4px;letter-spacing:1px;text-transform:uppercase;font-size:0.8rem;">Biryani</button>
+      <button onclick="filterMenu('starters')" style="padding:0.5rem 1.5rem;background:transparent;border:1px solid rgba(201,168,76,0.3);color:rgba(245,240,232,0.7);cursor:pointer;border-radius:4px;letter-spacing:1px;text-transform:uppercase;font-size:0.8rem;">Starters</button>
+      <button onclick="filterMenu('desserts')" style="padding:0.5rem 1.5rem;background:transparent;border:1px solid rgba(201,168,76,0.3);color:rgba(245,240,232,0.7);cursor:pointer;border-radius:4px;letter-spacing:1px;text-transform:uppercase;font-size:0.8rem;">Desserts</button>
+    </div>
+    <div class="menu-grid" id="menuGrid">
+      <div class="menu-card" data-cat="biryani" onclick="openModal('Dum Biryani','The crown jewel. Slow-cooked for 48 hours in a sealed clay pot with aged Basmati rice, saffron, and 12 whole spices.','₹680')">
+        <div style="font-size:3rem;margin-bottom:1rem;">🍲</div>
+        <h3>Dum Biryani</h3>
+        <p style="color:rgba(245,240,232,0.6);font-size:0.9rem;margin:0.5rem 0;">48-hour slow-cooked in sealed handi</p>
+        <div class="price">₹ 680</div>
+      </div>
+      <div class="menu-card" data-cat="biryani" onclick="openModal('Saffron Mutton','Tender mutton pieces marinated overnight in yogurt and 24 spices, layered with saffron-infused Basmati rice.','₹750')">
+        <div style="font-size:3rem;margin-bottom:1rem;">🥘</div>
+        <h3>Saffron Mutton</h3>
+        <p style="color:rgba(245,240,232,0.6);font-size:0.9rem;margin:0.5rem 0;">Overnight marinated, royal Mughal recipe</p>
+        <div class="price">₹ 750</div>
+      </div>
+      <div class="menu-card" data-cat="starters" onclick="openModal('Seekh Kebab','Hand-minced lamb mixed with roasted spices, charcoal-grilled on iron skewers. Served with mint chutney.','₹320')">
+        <div style="font-size:3rem;margin-bottom:1rem;">🍢</div>
+        <h3>Seekh Kebab</h3>
+        <p style="color:rgba(245,240,232,0.6);font-size:0.9rem;margin:0.5rem 0;">Charcoal-grilled iron skewer kebabs</p>
+        <div class="price">₹ 320</div>
+      </div>
+      <div class="menu-card" data-cat="starters" onclick="openModal('Galouti Kebab','The melt-in-mouth Lucknowi speciality. 150 spices, minced lamb, slow-cooked on tawa.','₹380')">
+        <div style="font-size:3rem;margin-bottom:1rem;">🥩</div>
+        <h3>Galouti Kebab</h3>
+        <p style="color:rgba(245,240,232,0.6);font-size:0.9rem;margin:0.5rem 0;">150 spice Lucknowi melt-in-mouth classic</p>
+        <div class="price">₹ 380</div>
+      </div>
+      <div class="menu-card" data-cat="desserts" onclick="openModal('Shahi Tukda','Royal bread pudding soaked in rabri (reduced milk), rose water and garnished with real silver leaf.','₹220')">
+        <div style="font-size:3rem;margin-bottom:1rem;">🍮</div>
+        <h3>Shahi Tukda</h3>
+        <p style="color:rgba(245,240,232,0.6);font-size:0.9rem;margin:0.5rem 0;">Royal bread pudding with silver leaf</p>
+        <div class="price">₹ 220</div>
+      </div>
+      <div class="menu-card" data-cat="desserts" onclick="openModal('Gulab Phirni','Rose-infused rice pudding chilled in clay pots, topped with pistachio and edible rose petals.','₹180')">
+        <div style="font-size:3rem;margin-bottom:1rem;">🌹</div>
+        <h3>Gulab Phirni</h3>
+        <p style="color:rgba(245,240,232,0.6);font-size:0.9rem;margin:0.5rem 0;">Rose-infused rice pudding in clay pot</p>
+        <div class="price">₹ 180</div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-overlay" id="menuModal">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div style="text-align:center;">
+        <div id="modalEmoji" style="font-size:4rem;margin-bottom:1rem;"></div>
+        <h3 id="modalTitle" style="font-family:'Playfair Display',serif;color:#C9A84C;font-size:2rem;margin-bottom:1rem;"></h3>
+        <p id="modalDesc" style="color:rgba(245,240,232,0.8);line-height:1.8;margin-bottom:1.5rem;"></p>
+        <p id="modalPrice" style="color:#F4D03F;font-size:1.5rem;font-family:'Playfair Display',serif;margin-bottom:2rem;"></p>
+        <a href="#booking" class="btn-primary" onclick="closeModal()">Reserve a Table</a>
+      </div>
+    </div>
+  </div>
+</section>Build the Signature Dish section HTML for restaurant "R Bawarchi".
+
+Output ONLY the section HTML. No DOCTYPE, no html/head/body/style/script tags.
+
+<section id="signature" style="background:#050301;padding:100px 5%;text-align:center;position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(139,37,0,0.15) 0%,transparent 70%);pointer-events:none;"></div>
+  <canvas id="signatureCanvas" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;opacity:0.6;"></canvas>
+  <div style="position:relative;z-index:10;max-width:800px;margin:0 auto;">
+    <p style="color:#C9A84C;letter-spacing:4px;text-transform:uppercase;font-size:0.8rem;margin-bottom:1rem;">The Crown Jewel</p>
+    <h2>Dum Biryani</h2>
+    <div class="divider"></div>
+    <p style="font-size:1.2rem;color:rgba(245,240,232,0.8);max-width:600px;margin:0 auto 3rem;line-height:1.8;">48-hour slow-cooked perfection. Sealed in a clay handi with dough. Every grain infused with saffron, rose water, and the smoke of decades.</p>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-bottom:3rem;">
+      <div style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:1.5rem;">
+        <div style="font-size:2rem;margin-bottom:0.5rem;">🌿</div>
+        <p style="color:#C9A84C;font-weight:600;font-size:0.9rem;">Saffron</p>
+        <p style="color:rgba(245,240,232,0.5);font-size:0.75rem;margin-top:0.25rem;">Kashmiri Grade A</p>
+      </div>
+      <div style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:1.5rem;">
+        <div style="font-size:2rem;margin-bottom:0.5rem;">🌾</div>
+        <p style="color:#C9A84C;font-weight:600;font-size:0.9rem;">Basmati</p>
+        <p style="color:rgba(245,240,232,0.5);font-size:0.75rem;margin-top:0.25rem;">Aged 2 Years</p>
+      </div>
+      <div style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:1.5rem;">
+        <div style="font-size:2rem;margin-bottom:0.5rem;">🔥</div>
+        <p style="color:#C9A84C;font-weight:600;font-size:0.9rem;">Charcoal</p>
+        <p style="color:rgba(245,240,232,0.5);font-size:0.75rem;margin-top:0.25rem;">48hr Dum Cook</p>
+      </div>
+      <div style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:1.5rem;">
+        <div style="font-size:2rem;margin-bottom:0.5rem;">⭐</div>
+        <p style="color:#C9A84C;font-weight:600;font-size:0.9rem;">12 Spices</p>
+        <p style="color:rgba(245,240,232,0.5);font-size:0.75rem;margin-top:0.25rem;">Whole &amp; Ground</p>
+      </div>
+    </div>
+    <a href="#booking" class="btn-primary">Reserve Your Table</a>
+  </div>
+</section>Build the Experience / Testimonials section HTML for restaurant "R Bawarchi".
+
+Output ONLY the section HTML. No DOCTYPE, no html/head/body/style/script tags.
+
+<section id="experience" style="background:linear-gradient(180deg,#050301 0%,#080503 100%);padding:100px 5%;">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:4rem;">
+      <p style="color:#C9A84C;letter-spacing:3px;text-transform:uppercase;font-size:0.85rem;">Our Guests</p>
+      <h2>Unforgettable Moments</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div style="color:#C9A84C;font-size:2rem;margin-bottom:1rem;">"</div>
+        <p class="quote">The Dum Biryani transported me to old Hyderabad. I've traveled across India chasing authentic biryani — this is the pinnacle. The saffron aroma alone is worth the journey.</p>
+        <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid rgba(201,168,76,0.15);">
+          <p class="author">Arjun Mehta</p>
+          <p style="color:rgba(245,240,232,0.4);font-size:0.8rem;margin-top:0.25rem;">Food Critic, The Hindu</p>
+          <div style="margin-top:0.5rem;color:#C9A84C;">★★★★★</div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div style="color:#C9A84C;font-size:2rem;margin-bottom:1rem;">"</div>
+        <p class="quote">We celebrated our anniversary here. The ambience, the service, the Galouti Kebab — everything was flawless. R Bawarchi doesn't just serve food, they serve an experience.</p>
+        <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid rgba(201,168,76,0.15);">
+          <p class="author">Priya &amp; Rohit Sharma</p>
+          <p style="color:rgba(245,240,232,0.4);font-size:0.8rem;margin-top:0.25rem;">Regular Guests since 2019</p>
+          <div style="margin-top:0.5rem;color:#C9A84C;">★★★★★</div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div style="color:#C9A84C;font-size:2rem;margin-bottom:1rem;">"</div>
+        <p class="quote">Michelin-level cooking meets the warmth of a family kitchen. The Shahi Tukda with real silver leaf was an act of love. This is Indian fine dining done right.</p>
+        <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid rgba(201,168,76,0.15);">
+          <p class="author">Chef Marco Delgado</p>
+          <p style="color:rgba(245,240,232,0.4);font-size:0.8rem;margin-top:0.25rem;">Executive Chef, The Leela Palace</p>
+          <div style="margin-top:0.5rem;color:#C9A84C;">★★★★★</div>
+        </div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:4rem;text-align:center;">
+      <div>
+        <p style="font-family:'Playfair Display',serif;font-size:3.5rem;color:#C9A84C;font-weight:900;line-height:1;">47</p>
+        <p style="color:rgba(245,240,232,0.5);letter-spacing:2px;text-transform:uppercase;font-size:0.8rem;margin-top:0.5rem;">Years of Legacy</p>
+      </div>
+      <div>
+        <p style="font-family:'Playfair Display',serif;font-size:3.5rem;color:#C9A84C;font-weight:900;line-height:1;">1.2M</p>
+        <p style="color:rgba(245,240,232,0.5);letter-spacing:2px;text-transform:uppercase;font-size:0.8rem;margin-top:0.5rem;">Guests Served</p>
+      </div>
+      <div>
+        <p style="font-family:'Playfair Display',serif;font-size:3.5rem;color:#C9A84C;font-weight:900;line-height:1;">12</p>
+        <p style="color:rgba(245,240,232,0.5);letter-spacing:2px;text-transform:uppercase;font-size:0.8rem;margin-top:0.5rem;">Awards Won</p>
+      </div>
+    </div>
+  </div>
+</section>Build the Reserve a Table section HTML for restaurant "R Bawarchi".
+
+Output ONLY the section HTML. No DOCTYPE, no html/head/body/style/script tags.
+
+<section id="booking" style="background:#080503;padding:100px 5%;">
+  <div style="max-width:700px;margin:0 auto;text-align:center;">
+    <p style="color:#C9A84C;letter-spacing:3px;text-transform:uppercase;font-size:0.85rem;">Join Us</p>
+    <h2>Reserve a Table</h2>
+    <div class="divider"></div>
+    <p style="color:rgba(245,240,232,0.6);margin-bottom:3rem;">Experience the finest biryani in a setting worthy of royalty. Reserve your table and let us craft an evening you'll never forget.</p>
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(201,168,76,0.15);border-radius:20px;padding:3rem;text-align:left;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 2rem;">
+        <div class="form-group">
+          <input type="text" id="fname" placeholder=" " style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(201,168,76,0.3);padding:1rem 0;color:#f5f0e8;font-size:1rem;outline:none;font-family:inherit;">
+          <label style="position:absolute;top:1rem;left:0;color:rgba(245,240,232,0.5);pointer-events:none;transition:all 0.3s;font-size:0.9rem;" id="lname">Full Name</label>
+        </div>
+        <div class="form-group">
+          <input type="email" id="femail" placeholder=" " style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(201,168,76,0.3);padding:1rem 0;color:#f5f0e8;font-size:1rem;outline:none;font-family:inherit;">
+          <label style="position:absolute;top:1rem;left:0;color:rgba(245,240,232,0.5);pointer-events:none;transition:all 0.3s;font-size:0.9rem;" id="lemail">Email Address</label>
+        </div>
+        <div class="form-group">
+          <input type="date" id="fdate" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(201,168,76,0.3);padding:1rem 0;color:#f5f0e8;font-size:1rem;outline:none;font-family:inherit;color-scheme:dark;">
+          <label style="position:absolute;top:-0.5rem;left:0;color:#C9A84C;font-size:0.75rem;pointer-events:none;">Date</label>
+        </div>
+        <div class="form-group">
+          <select id="fguests" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(201,168,76,0.3);padding:1rem 0;color:#f5f0e8;font-size:1rem;outline:none;font-family:inherit;-webkit-appearance:none;">
+            <option value="" style="background:#0f0a05;">Select Guests</option>
+            <option value="1" style="background:#0f0a05;">1 Guest</option>
+            <option value="2" style="background:#0f0a05;">2 Guests</option>
+            <option value="3-4" style="background:#0f0a05;">3-4 Guests</option>
+            <option value="5-8" style="background:#0f0a05;">5-8 Guests</option>
+            <option value="9+" style="background:#0f0a05;">9+ Guests (Private Dining)</option>
+          </select>
+          <label style="position:absolute;top:-0.5rem;left:0;color:#C9A84C;font-size:0.75rem;pointer-events:none;">Guests</label>
+        </div>
+      </div>
+      <div class="form-group" style="margin-top:1rem;">
+        <textarea id="fspecial" placeholder="Special requests, dietary requirements, or occasion details..." rows="3" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(201,168,76,0.3);padding:1rem 0;color:#f5f0e8;font-size:1rem;outline:none;font-family:inherit;resize:none;"></textarea>
+      </div>
+      <div style="text-align:center;margin-top:2rem;">
+        <button onclick="submitBooking()" class="btn-primary" style="width:100%;padding:1.2rem;font-size:1rem;border:none;cursor:pointer;">Confirm Reservation</button>
+      </div>
+      <div id="bookingSuccess" style="display:none;text-align:center;margin-top:2rem;padding:1.5rem;background:rgba(201,168,76,0.1);border:1px solid #C9A84C;border-radius:8px;">
+        <p style="color:#C9A84C;font-size:1.1rem;">✓ Reservation Received</p>
+        <p style="color:rgba(245,240,232,0.7);margin-top:0.5rem;font-size:0.9rem;">We'll confirm your table within 2 hours via email.</p>
+      </div>
+    </div>
+  </div>
+  <footer style="text-align:center;margin-top:6rem;padding-top:3rem;border-top:1px solid rgba(201,168,76,0.1);">
+    <p style="font-family:'Playfair Display',serif;font-size:1.5rem;color:#C9A84C;">R Bawarchi</p>
+    <p style="color:rgba(245,240,232,0.4);font-size:0.85rem;margin-top:1rem;letter-spacing:1px;">123 Royal Palace Road, Hyderabad · reservations@rbawarchi.com · +91 98765 43210</p>
+    <p style="color:rgba(245,240,232,0.2);font-size:0.75rem;margin-top:2rem;">© 2025 R Bawarchi. All rights reserved.</p>
+  </footer>
+</section>
 <script>
-// Hero Section
-document.getElementById('scene').style.backgroundColor = '#0a0a0a';
-document.body.style.color = '#ffd700';
 
-// 3D sections
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 100;
+// ── CURSOR GLOW ──────────────────────────────────────────────
+const cursor = document.createElement('div');
+cursor.style.cssText = 'position:fixed;width:20px;height:20px;border-radius:50%;background:rgba(201,168,76,0.4);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform 0.1s,width 0.3s,height 0.3s;mix-blend-mode:screen;';
+document.body.appendChild(cursor);
+const cursorOuter = document.createElement('div');
+cursorOuter.style.cssText = 'position:fixed;width:40px;height:40px;border-radius:50%;border:1px solid rgba(201,168,76,0.3);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all 0.15s ease;';
+document.body.appendChild(cursorOuter);
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+  cursorOuter.style.left = e.clientX + 'px';
+  cursorOuter.style.top = e.clientY + 'px';
+});
+document.addEventListener('mousedown', () => { cursor.style.transform='translate(-50%,-50%) scale(0.7)'; });
+document.addEventListener('mouseup', () => { cursor.style.transform='translate(-50%,-50%) scale(1)'; });
 
-const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.getElementById('scene').appendChild(renderer.domElement);
-
-// Create Sun
-const sunGeometry = new THREE.SphereGeometry(5, 32, 32);
-const sunMaterial = new THREE.MeshBasicMaterial({ color: '#FFD700' });
-const sun = new THREE.Mesh(sunGeometry, sunMaterial);
-scene.add(sun);
-
-// Add planets with GSAP animations
-const planets = [
-    { name: 'Mercury', r: 1, speed: 0.1, color: '#333', animation: () => gsap.to(sun.position, { x: Math.cos(Math.PI * planets.speed) * 100, y: Math.sin(Math.PI * planets.speed) * 100, duration: 2 }) },
-    { name: 'Venus', r: 1.5, speed: 0.15, color: '#FFD700', animation: () => gsap.to(sun.position, { x: 0, y: 0 }) },
-    { name: 'Earth', r: 2, speed: 0.2, color: '#FFD700', animation: () => gsap.to(sun.position, { x: Math.cos(Math.PI * 0.1) * 150, y: Math.sin(Math.PI * 0.1) * 150, duration: 2 }) },
-    { name: 'Mars', r: 1.8, speed: 0.2, color: '#FFD700', animation: () => gsap.to(sun.position, { x: Math.cos(Math.PI * 0.35) * 120, y: Math.sin(Math.PI * 0.35) * 120, duration: 2 }) },
-    { name: 'Jupiter', r: 5, speed: 0.25, color: '#FFD700', animation: () => gsap.to(sun.position, { x: Math.cos(Math.PI * 0.5) * 200, y: Math.sin(Math.PI * 0.5) * 200, duration: 2 }) },
-    { name: 'Saturn', r: 5, speed: 0.3, color: '#FFD700', animation: () => gsap.to(sun.position, { x: 0, y: Math.sin(Math.PI * 0.8) * 180, duration: 3 }) },
-    { name: 'Uranus', r: 4, speed: 0.3, color: '#FFD700', animation: () => gsap.to(sun.position, { x: Math.cos(Math.PI * 0.9) * 220, y: 0, duration: 3 }) },
-    { name: 'Neptune', r: 4, speed: 0.35, color: '#FFD700', animation: () => gsap.to(sun.position, { x: Math.cos(Math.PI * 1.3) * 250, y: Math.sin(Math.PI * 1.3) * 250, duration: 4 }) }
-];
-
-// Magnetic buttons
-const buttons = [];
-for (let i = 0; i < 3; i++) {
-    const button = document.createElement('button');
-    button.className = 'magnetic-button';
-    button.style.position = 'absolute';
-    button.style.border = 'none';
-    button.style.cursor = 'pointer';
-    button.style.fontSize = '12px';
-    button.style.backgroundColor = '#FFD700';
-    button.style.color = '#0a0a0a';
-    button.style.padding = '10px';
-    button.style.zIndex = 1000;
-    button.addEventListener('click', () => gsap.to(buttons[i].style.backgroundColor, { duration: 0.3, opacity: 0.5 });
-    scene.add(button);
-    buttons.push(button);
+// ── SCROLL ANIMATIONS ─────────────────────────────────────────
+if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+  gsap.utils.toArray('section').forEach((sec, i) => {
+    if (i === 0) return;
+    gsap.fromTo(sec.querySelectorAll('h2, h3, p, .menu-card, .testimonial-card, .form-group'),
+      { opacity: 0, y: 40 },
+      { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: 'power3.out',
+         scrollTrigger: { trigger: sec, start: 'top 80%', toggleActions: 'play none none none' }
+      }
+    );
+  });
+  gsap.from('.hero-content', { opacity:0, y:60, duration:1.2, ease:'power3.out', delay:0.5 });
+  gsap.from('nav', { opacity:0, y:-30, duration:0.8, ease:'power3.out' });
 }
 
-// ScrollTrigger for mobile
-const trigger = new ScrollTrigger({ trigger: 'scroll', start: 0, end: 100 });
-trigger.load();
-window.addEventListener('scroll', () => {
-    if (window.innerHeight > 0 && window.pageYOffset > 0) {
-        gsap.to(scene, { scrollTo: { x: 0, y: 0 }, duration: 0.5 });
+// ── HERO THREE.JS ─────────────────────────────────────────────
+(function() {
+  const canvas = document.getElementById('heroCanvas');
+  if (!canvas || typeof THREE === 'undefined') return;
+  const W = canvas.offsetWidth, H = canvas.offsetHeight;
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setSize(W, H);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, W/H, 0.1, 100);
+  camera.position.set(0, 0, 5);
+
+  // Bowl base
+  const bowlGeo = new THREE.SphereGeometry(1.5, 32, 32, 0, Math.PI*2, 0, Math.PI/2);
+  const bowlMat = new THREE.MeshPhongMaterial({ color:0x3d1a00, shininess:80, specular:0xC9A84C });
+  const bowl = new THREE.Mesh(bowlGeo, bowlMat);
+  bowl.rotation.x = 0.2;
+  scene.add(bowl);
+
+  // Rice layer
+  const riceGeo = new THREE.SphereGeometry(1.4, 32, 16, 0, Math.PI*2, 0, Math.PI/2.5);
+  const riceMat = new THREE.MeshPhongMaterial({ color:0xf5e6c8, shininess:30 });
+  const rice = new THREE.Mesh(riceGeo, riceMat);
+  rice.position.y = 0.1;
+  scene.add(rice);
+
+  // Saffron top layer
+  const saffronGeo = new THREE.SphereGeometry(1.35, 32, 16, 0, Math.PI*2, 0, Math.PI/3);
+  const saffronMat = new THREE.MeshPhongMaterial({ color:0xC9A84C, shininess:20 });
+  const saffron = new THREE.Mesh(saffronGeo, saffronMat);
+  saffron.position.y = 0.25;
+  scene.add(saffron);
+
+  // Steam particles
+  const particleCount = 200;
+  const positions = new Float32Array(particleCount * 3);
+  const velocities = [];
+  for (let i = 0; i < particleCount; i++) {
+    positions[i*3]   = (Math.random()-0.5) * 2;
+    positions[i*3+1] = Math.random() * 3 + 1;
+    positions[i*3+2] = (Math.random()-0.5) * 2;
+    velocities.push({ x:(Math.random()-0.5)*0.003, y:0.005+Math.random()*0.008, z:(Math.random()-0.5)*0.003 });
+  }
+  const particleGeo = new THREE.BufferGeometry();
+  particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  const particleMat = new THREE.PointsMaterial({ color:0xf5f0e8, size:0.06, transparent:true, opacity:0.4 });
+  const particles = new THREE.Points(particleGeo, particleMat);
+  scene.add(particles);
+
+  // Lighting
+  const ambientLight = new THREE.AmbientLight(0x442200, 0.8);
+  scene.add(ambientLight);
+  const pointLight1 = new THREE.PointLight(0xC9A84C, 2, 10);
+  pointLight1.position.set(3, 4, 3);
+  scene.add(pointLight1);
+  const pointLight2 = new THREE.PointLight(0x8B2500, 1, 10);
+  pointLight2.position.set(-3, -2, 2);
+  scene.add(pointLight2);
+
+  let time = 0;
+  function animate() {
+    requestAnimationFrame(animate);
+    time += 0.01;
+    bowl.rotation.y += 0.004;
+    rice.rotation.y += 0.004;
+    saffron.rotation.y += 0.003;
+    // Animate particles
+    const pos = particleGeo.attributes.position.array;
+    for (let i = 0; i < particleCount; i++) {
+      pos[i*3]   += velocities[i].x;
+      pos[i*3+1] += velocities[i].y;
+      pos[i*3+2] += velocities[i].z;
+      if (pos[i*3+1] > 5) {
+        pos[i*3]   = (Math.random()-0.5)*2;
+        pos[i*3+1] = 1;
+        pos[i*3+2] = (Math.random()-0.5)*2;
+      }
     }
+    particleGeo.attributes.position.needsUpdate = true;
+    particleMat.opacity = 0.3 + Math.sin(time)*0.1;
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    const W2 = canvas.offsetWidth, H2 = canvas.offsetHeight;
+    renderer.setSize(W2, H2);
+    camera.aspect = W2/H2;
+    camera.updateProjectionMatrix();
+  });
+})();
+
+// ── SIGNATURE THREE.JS ────────────────────────────────────────
+(function() {
+  const canvas = document.getElementById('signatureCanvas');
+  if (!canvas || typeof THREE === 'undefined') return;
+  const W = canvas.offsetWidth, H = canvas.offsetHeight;
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setSize(W, H);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, W/H, 0.1, 100);
+  camera.position.set(0, 0, 6);
+  // Orbiting spice particles
+  const count = 300;
+  const geo = new THREE.BufferGeometry();
+  const pos = new Float32Array(count * 3);
+  for (let i = 0; i < count; i++) {
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos(2 * Math.random() - 1);
+    const r = 2 + Math.random() * 1.5;
+    pos[i*3] = r * Math.sin(phi) * Math.cos(theta);
+    pos[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
+    pos[i*3+2] = r * Math.cos(phi);
+  }
+  geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  const mat = new THREE.PointsMaterial({ color:0xC9A84C, size:0.05, transparent:true, opacity:0.6 });
+  const pts = new THREE.Points(geo, mat);
+  scene.add(pts);
+  scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+  function animate() {
+    requestAnimationFrame(animate);
+    pts.rotation.y += 0.003;
+    pts.rotation.x += 0.001;
+    renderer.render(scene, camera);
+  }
+  animate();
+})();
+
+// ── MAGNETIC BUTTON ───────────────────────────────────────────
+const ctaBtn = document.getElementById('ctaBtn');
+if (ctaBtn) {
+  ctaBtn.addEventListener('mousemove', function(e) {
+    const rect = this.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width/2;
+    const y = e.clientY - rect.top - rect.height/2;
+    this.style.transform = `translate(${x*0.3}px,${y*0.3}px)`;
+  });
+  ctaBtn.addEventListener('mouseleave', function() {
+    this.style.transform = '';
+  });
+}
+
+// ── MENU FILTER ───────────────────────────────────────────────
+function filterMenu(cat) {
+  const cards = document.querySelectorAll('.menu-card');
+  cards.forEach(card => {
+    if (cat === 'all' || card.dataset.cat === cat) {
+      card.style.display = 'block';
+      card.style.animation = 'none';
+      card.offsetHeight;
+      card.style.animation = '';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+
+// ── MODAL ─────────────────────────────────────────────────────
+const emojis = { 'Dum Biryani':'🍲','Saffron Mutton':'🥘','Seekh Kebab':'🍢','Galouti Kebab':'🥩','Shahi Tukda':'🍮','Gulab Phirni':'🌹' };
+function openModal(title, desc, price) {
+  const overlay = document.getElementById('menuModal');
+  if (!overlay) return;
+  document.getElementById('modalEmoji').textContent = emojis[title] || '🍽️';
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalDesc').textContent = desc;
+  document.getElementById('modalPrice').textContent = price;
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  const overlay = document.getElementById('menuModal');
+  if (overlay) overlay.classList.remove('active');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ── BOOKING FORM ──────────────────────────────────────────────
+function submitBooking() {
+  const name = document.getElementById('fname');
+  const email = document.getElementById('femail');
+  if (name && !name.value.trim()) { name.focus(); return; }
+  if (email && !email.value.trim()) { email.focus(); return; }
+  const success = document.getElementById('bookingSuccess');
+  if (success) {
+    success.style.display = 'block';
+    if (typeof gsap !== 'undefined') gsap.from(success, { opacity:0, y:20, duration:0.5 });
+  }
+}
+
+// ── FLOATING LABELS ───────────────────────────────────────────
+document.querySelectorAll('.form-group input, .form-group textarea').forEach(input => {
+  const label = input.nextElementSibling;
+  if (!label) return;
+  input.addEventListener('focus', () => { if(label) { label.style.top='-0.5rem';label.style.fontSize='0.75rem';label.style.color='#C9A84C'; } });
+  input.addEventListener('blur', () => {
+    if (!input.value && label) { label.style.top='1rem';label.style.fontSize='0.9rem';label.style.color='rgba(245,240,232,0.5)'; }
+  });
 });
 
-// Add glow to cursor
-const glow = new THREE.ConeLight();
-glow.position.set(0, 0, 0);
-glow.color = '#FFD700';
-glow.shadowSize = 20;
-sun.add(glow);
-
-camera.position.z = 1000;
-
-// Mobile fallback
-window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
+// ── SMOOTH SECTION HIGHLIGHT IN NAV ───────────────────────────
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(sec => {
+    if (window.scrollY >= sec.offsetTop - 200) current = sec.id;
+  });
+  navLinks.forEach(a => {
+    a.style.color = a.getAttribute('href') === '#'+current ? '#C9A84C' : '';
+  });
 });
 
 </script>
-
-</body>
-</html>
-    </script>
 </body>
 </html>
