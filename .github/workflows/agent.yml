@@ -6,7 +6,7 @@ on:
       prompt:
         description: "Describe the 3D website you want"
         required: true
-        default: "Build a premium minimalist coffee brand website"
+        default: "Luxury cyber-tech portfolio with floating 3D circuits"
 
 jobs:
   build:
